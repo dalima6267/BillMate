@@ -1,0 +1,69 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.DashboardActivity">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:minHeight="?attr/actionBarSize"
+        android:background="#89CFF0"
+        android:elevation="4dp"> <!-- Elevation for shadow effect -->
+
+        <!-- Toolbar Title -->
+        <!-- Toolbar -->
+
+        <!-- Toolbar changes-->
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textColor="@android:color/black"
+            android:text="BillMate"
+            android:textSize="25sp" />
+
+        <!-- Search Icon -->
+        <ImageView
+            android:id="@+id/imgSearch"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            android:src="@drawable/baseline_search_24" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- RecyclerView -->
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/btnAddNewFile"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="40dp" />
+
+    <!-- Add New File Button -->
+    <Button
+        android:id="@+id/btnAddNewFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:backgroundTint="#89CFF0"
+        android:text="Add new file"
+        android:textColor="#ffffff"
+        android:textSize="19sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
