@@ -1,10 +1,7 @@
 package com.example.billmate.activity
 
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,64 +13,38 @@ import com.example.billmate.models.Bill
 
 class DashboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
-   // private val billList: ArrayList<Bill> = arrayListOf()
-
+    private lateinit var billAdapter: BillAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // When "Add New File" button is clicked, load the AddNewFileFragment
         binding.btnAddNewFile.setOnClickListener {
+            // Hide the toolbar to make room for the fragment
             binding.toolbar.visibility = View.GONE
+
+            // Begin the fragment transaction to load AddNewFileFragment
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, AddNewFileFragment())
-                .addToBackStack(null)
-                .commit() // Correct method
+                .replace(R.id.fragment_container, AddNewFileFragment())  // Replace the fragment container with the fragment
+                .addToBackStack(null)  // Add to back stack to allow navigating back
+                .commit()
+
+            // Hide the Add New File button after fragment is loaded
             binding.btnAddNewFile.visibility = View.INVISIBLE
         }
+        val dummyBills = listOf(
+            Bill("Electricity Bill", "12-10-2023", "Utility", listOf(Uri.EMPTY)),
+            Bill("Water Bill", "11-10-2023", "Utility", listOf(Uri.EMPTY)),
+            Bill("Internet Bill", "10-10-2023", "Utility", listOf(Uri.EMPTY)),
+            Bill("Rent", "01-10-2023", "Housing", listOf(Uri.EMPTY))
+        )
+        billAdapter = BillAdapter(dummyBills)
 
-
-        // Full-screen flag removed for potential layout conflicts
-        // window.setFlags(
-        //    WindowManager.LayoutParams.FLAG_FULLSCREEN,
-        //    WindowManager.LayoutParams.FLAG_FULLSCREEN
-        // )
-
-        // SharedPreferences data retrieval
-      /*  val sharedPreferences = getSharedPreferences("Bill", Context.MODE_PRIVATE)
-        val billName = sharedPreferences.getString("billnameKey", "N/A") ?: "N/A"
-        val billDate = sharedPreferences.getString("billdateKey", "N/A") ?: "N/A"
-        val billType = sharedPreferences.getString("billtypeKey", "N/A") ?: "N/A"
-        val imageUriStrings = sharedPreferences.getString("imageUris", "") ?: ""
-
-        val imageUris: List<Uri> = imageUriStrings
-            .split(",")
-            .filter { it.isNotBlank() }
-            .mapNotNull { uriString ->
-                try {
-                    Uri.parse(uriString)
-                } catch (e: Exception) {
-                    Log.e("DashboardActivity", "Invalid URI string: $uriString", e)
-                    null
-                }
-            }
-
-        Log.d("DashboardActivity", "BillName: $billName, BillDate: $billDate, BillType: $billType")
-        Log.d("DashboardActivity", "ImageUris: $imageUris")
-
-        // Add data to the bill list
-        billList.add(Bill(billName, billDate, billType, imageUris))
-
-        // Set up RecyclerView with try-catch to prevent crashes
-        try {
-            binding.recyclerview.layoutManager = LinearLayoutManager(this)
-            binding.recyclerview.adapter = BillAdapter(billList)
-
-        } catch (e: Exception) {
-            Log.e("DashboardActivity", "Error setting RecyclerView adapter", e)
+        // Set up the RecyclerView
+        binding.recyclerview.apply {
+            layoutManager = LinearLayoutManager(this@DashboardActivity)
+            adapter = billAdapter
         }
-
-        // Enable edge-to-edge if necessary
-        // enableEdgeToEdge()*/
     }
 }

@@ -17,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import com.example.billmate.adapter.AdapterSelectedImage
 import com.example.billmate.R
 import com.example.billmate.activity.DashboardActivity
@@ -26,30 +27,28 @@ import java.util.Calendar
 
 class AddNewFileFragment : Fragment() {
 
-    lateinit var binding: FragmentAddNewFileBinding
+   private lateinit var binding: FragmentAddNewFileBinding
     private val imageUris: ArrayList<Uri> = arrayListOf()
-
-    val selectedImage = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { listOfUri ->
+    private lateinit var adapterSelectedImage: AdapterSelectedImage
+    private val selectedImage = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { listOfUri ->
         if (listOfUri.isNotEmpty()) {
-            val fiveImages = listOfUri.take(1)
-            imageUris.clear()
-            imageUris.addAll(fiveImages)
-            binding.rvProductImages.adapter = AdapterSelectedImage(imageUris)
+            imageUris.addAll(listOfUri)
+            adapterSelectedImage.notifyDataSetChanged()
         } else {
             // Handle the case when no image is selected
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private val captureImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         val data = result.data
         if (result.resultCode == android.app.Activity.RESULT_OK && data != null) {
             val photo = data.extras?.get("data") as? Bitmap // Safely cast to Bitmap
             if (photo != null) {
+                // Convert Bitmap to Uri and add to list
                 val imageUriString = Images.Media.insertImage(requireContext().contentResolver, photo, "New Image", null)
                 val imageUri = Uri.parse(imageUriString)
                 imageUris.add(imageUri) // Add Uri to the list
-                binding.rvProductImages.adapter?.notifyDataSetChanged()
+                adapterSelectedImage.notifyDataSetChanged() // Notify RecyclerView adapter
             }
         }
     }
@@ -59,7 +58,10 @@ class AddNewFileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddNewFileBinding.inflate(inflater, container, false)
-        binding.rvProductImages.adapter = AdapterSelectedImage(imageUris)
+
+        // Initialize the adapter for RecyclerView
+        adapterSelectedImage = AdapterSelectedImage(imageUris)
+        binding.rvProductImages.adapter = adapterSelectedImage
 
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, Constants.allTypesofBills)
         binding.apply {
@@ -83,35 +85,52 @@ class AddNewFileFragment : Fragment() {
         }
 
         binding.btnDrive.setOnClickListener {
-            selectedImage.launch("image/*")
+            selectedImage.launch("image/*")  // Launches the drive/gallery image picker
         }
 
+        // Camera button click to capture image
         binding.btnCamera.setOnClickListener {
-            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            captureImage.launch(cameraIntent)
+            if (checkCameraPermissions()) {
+                openCamera()
+            } else {
+                requestCameraPermissions()
+            }
         }
 
+        // Submit button click to move to the dashboard or save data
         binding.btnSubmit.setOnClickListener {
-           // saveDataToLocalStorage()
-           // if (isAdded) {
-                val intent = Intent(requireContext(), DashboardActivity::class.java)
-                startActivity(intent)
-           // }
+            val intent = Intent(requireContext(), DashboardActivity::class.java)
+            startActivity(intent)
         }
 
         return binding.root
     }
 
+    private fun checkCameraPermissions(): Boolean {
+        return ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+    }
+
+    // Request camera permission if not granted
+    private fun requestCameraPermissions() {
+        requestPermissions(arrayOf(Manifest.permission.CAMERA), CAMERA_REQUEST_CODE)
+    }
+
+    // Open the camera intent
+    private fun openCamera() {
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        captureImage.launch(cameraIntent)
+    }
+
+    companion object {
+        private const val CAMERA_REQUEST_CODE = 1001
+    }
 
 
-                // This method will help to retrieve the image
 
 
 
-    //companion object {
-        // Define the pic id
-      //  private const val pic_id = 123
-   // }
+
+
    /* private fun saveDataToLocalStorage() {
         val sharedPreferences = requireContext().getSharedPreferences("Bill", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()

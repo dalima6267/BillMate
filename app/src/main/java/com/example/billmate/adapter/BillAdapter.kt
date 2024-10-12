@@ -4,39 +4,40 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-
 import com.example.billmate.R
-
 import com.example.billmate.databinding.DashboardSingleRowBinding
-
 import com.example.billmate.models.Bill
 
-class BillAdapter(var billlist: List<Bill> = listOf()):RecyclerView.Adapter<BillAdapter.BillViewHolder>() {
-    class BillViewHolder(val binding: DashboardSingleRowBinding): ViewHolder (binding.root)
+class BillAdapter(var billList: List<Bill> = listOf()) : RecyclerView.Adapter<BillAdapter.BillViewHolder>() {
 
+    // ViewHolder class to hold each item view
+    class BillViewHolder(val binding: DashboardSingleRowBinding) : ViewHolder(binding.root)
+
+    // Inflate the view for each row
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BillViewHolder {
-        return BillViewHolder(DashboardSingleRowBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        val binding = DashboardSingleRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BillViewHolder(binding)
     }
 
+    // Return the number of items in the list
     override fun getItemCount(): Int {
-       return billlist.size
+        return billList.size
     }
 
+    // Bind the data to the view
     override fun onBindViewHolder(holder: BillViewHolder, position: Int) {
-        val bill = billlist[position]
-        holder.binding.txtFileName.text = bill.name ?: "Unknown" // Safe fallback if name is null
-        holder.binding.txtDate.text = bill.date ?: "Unknown"
-        holder.binding.txtType.text = bill.type ?: "Unknown"
+        val bill = billList[position]
+        holder.binding.apply {
+            txtFileName.text = bill.name ?: "Unknown" // Safe fallback if name is null
+            txtDate.text = bill.date ?: "Unknown"
+            txtType.text = bill.type ?: "Unknown"
 
-        // Add checks for null or empty URIs
-        if (bill.imageUri.isNotEmpty()) {
-            holder.binding.imgView.setImageURI(bill.imageUri[0])
-        } else {
-            holder.binding.imgView.setImageResource(R.drawable.baseline_image_24)
+            // Check if imageUri is not empty and set the image, otherwise use a default image
+            if (bill.imageUri.isNotEmpty()) {
+                imgView.setImageURI(bill.imageUri[0])
+            } else {
+                imgView.setImageResource(R.drawable.baseline_image_24) // Default image
+            }
         }
-
     }
-
-
-
 }
