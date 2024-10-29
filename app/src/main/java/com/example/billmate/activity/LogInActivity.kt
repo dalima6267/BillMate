@@ -29,8 +29,8 @@ class LogInActivity : AppCompatActivity() {
 
 
         binding.txtSignIn.setOnClickListener {
-        startActivity(Intent(this, SignUpActivity::class.java))
-    }
+            startActivity(Intent(this, SignUpActivity::class.java))
+        }
 
 
     }

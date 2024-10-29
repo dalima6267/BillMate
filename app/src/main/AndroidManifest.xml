@@ -8,10 +8,18 @@
         tools:ignore="PermissionImpliesUnsupportedChromeOsHardware" />
 
     <!-- Write to external storage permission, limited to SDK version 32 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"
+        tools:ignore="SelectedPhotoAccess" />
+
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32"
         tools:ignore="ScopedStorage" />
+
+
 
     <!-- Application configuration -->
     <application

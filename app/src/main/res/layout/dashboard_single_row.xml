@@ -8,30 +8,30 @@
     <TextView
         android:id="@+id/txtFileName"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="File name"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textSize="15sp"
+
         android:layout_weight="1"
         android:layout_margin="10dp"/>
 
     <TextView
         android:id="@+id/txtDate"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="Date"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textSize="15sp"
+
         android:layout_weight="1"
         android:layout_margin="10dp"/>
 
     <TextView
         android:id="@+id/txtType"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="Type"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textSize="15sp"
+
         android:layout_weight="1"
         android:layout_margin="10dp"/>
 

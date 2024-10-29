@@ -20,6 +20,15 @@
 
         <!-- Toolbar changes-->
         <TextView
+            android:id="@+id/txtNoData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="No data available"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+            android:textColor="@android:color/darker_gray"/>
+        <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

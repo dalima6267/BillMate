@@ -1,50 +1,95 @@
 package com.example.billmate.activity
 
-import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.billmate.R
 import com.example.billmate.adapter.BillAdapter
+import com.example.billmate.database.Bill // Ensure this is the correct import
+import com.example.billmate.database.BillDatabase
 import com.example.billmate.databinding.ActivityDashboardBinding
 import com.example.billmate.fragments.AddNewFileFragment
-import com.example.billmate.models.Bill
+import kotlinx.coroutines.launch
 
 class DashboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var billAdapter: BillAdapter
+    private val billList: MutableList<Bill> = mutableListOf() // Use the entity Bill class
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDashboardBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        try {
+            binding = ActivityDashboardBinding.inflate(layoutInflater)
+            setContentView(binding.root)
 
-        // When "Add New File" button is clicked, load the AddNewFileFragment
+            setupRecyclerView()
+            setupAddNewFileButton()
+
+            // Load data after setting up the adapter
+            loadBillData()
+        } catch (e: Exception) {
+            Log.e("DashboardActivity", "Error initializing activity: ${e.message}", e)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        try {
+            loadBillData()
+        } catch (e: Exception) {
+            Log.e("DashboardActivity", "Error during onResume: ${e.message}", e)
+        }
+    }
+
+
+    private fun loadBillData() {
+        val billDatabase = BillDatabase.getDatabase(this)
+        lifecycleScope.launch {
+            try {
+                val bills = billDatabase.billDao().getAllBills()
+                if (bills.isNotEmpty()) {
+                    billList.clear()
+                    billList.addAll(bills)
+                    binding.txtNoData.visibility = View.GONE
+                } else {
+                    binding.txtNoData.visibility = View.VISIBLE
+                    binding.txtNoData.text = "No bills added yet."
+                }
+                billAdapter.notifyDataSetChanged()
+            } catch (e: Exception) {
+                Log.e("DashboardActivity", "Error loading data: ${e.message}", e)
+            }
+        }
+    }
+
+
+    private fun setupRecyclerView() {
+        billAdapter = BillAdapter(billList)
+        binding.recyclerview.layoutManager = LinearLayoutManager(this)
+        binding.recyclerview.adapter = billAdapter
+    }
+
+    private fun setupAddNewFileButton() {
         binding.btnAddNewFile.setOnClickListener {
-            // Hide the toolbar to make room for the fragment
-            binding.toolbar.visibility = View.GONE
-
-            // Begin the fragment transaction to load AddNewFileFragment
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, AddNewFileFragment())  // Replace the fragment container with the fragment
-                .addToBackStack(null)  // Add to back stack to allow navigating back
-                .commit()
-
-            // Hide the Add New File button after fragment is loaded
-            binding.btnAddNewFile.visibility = View.INVISIBLE
+            try {
+                binding.toolbar.visibility = View.GONE
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, AddNewFileFragment())
+                    .addToBackStack(null)
+                    .commit()
+                binding.btnAddNewFile.visibility = View.INVISIBLE
+            } catch (e: Exception) {
+                Log.e("DashboardActivity", "Error loading fragment: ${e.message}", e)
+            }
         }
-        val dummyBills = listOf(
-            Bill("Electricity Bill", "12-10-2023", "Utility", listOf(Uri.EMPTY)),
-            Bill("Water Bill", "11-10-2023", "Utility", listOf(Uri.EMPTY)),
-            Bill("Internet Bill", "10-10-2023", "Utility", listOf(Uri.EMPTY)),
-            Bill("Rent", "01-10-2023", "Housing", listOf(Uri.EMPTY))
-        )
-        billAdapter = BillAdapter(dummyBills)
+    }
 
-        // Set up the RecyclerView
-        binding.recyclerview.apply {
-            layoutManager = LinearLayoutManager(this@DashboardActivity)
-            adapter = billAdapter
-        }
+
+    override fun onBackPressed() {
+        // Finish the activity to ensure it closes when back is pressed.
+        finishAffinity()
     }
 }

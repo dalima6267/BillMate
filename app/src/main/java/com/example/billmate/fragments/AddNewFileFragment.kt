@@ -3,7 +3,6 @@ package com.example.billmate.fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -16,42 +15,64 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.billmate.adapter.AdapterSelectedImage
 import com.example.billmate.R
 import com.example.billmate.activity.DashboardActivity
+import com.example.billmate.database.BillDatabase
 import com.example.billmate.databinding.FragmentAddNewFileBinding
+import com.example.billmate.database.Bill
 import com.example.billmate.utils.Constants
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class AddNewFileFragment : Fragment() {
 
-   private lateinit var binding: FragmentAddNewFileBinding
+    private lateinit var binding: FragmentAddNewFileBinding
     private val imageUris: ArrayList<Uri> = arrayListOf()
     private lateinit var adapterSelectedImage: AdapterSelectedImage
+    @SuppressLint("NotifyDataSetChanged")
     private val selectedImage = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { listOfUri ->
         if (listOfUri.isNotEmpty()) {
-            imageUris.addAll(listOfUri)
+            imageUris.clear()  // Clear the list before adding new images
+            listOfUri.forEach { uri ->
+                try {
+                    requireContext().contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                } catch (e: SecurityException) {
+                    e.printStackTrace()
+                }
+                imageUris.add(uri)
+            }
             adapterSelectedImage.notifyDataSetChanged()
-        } else {
-            // Handle the case when no image is selected
         }
     }
 
+
+
+    @SuppressLint("NotifyDataSetChanged")
     private val captureImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         val data = result.data
         if (result.resultCode == android.app.Activity.RESULT_OK && data != null) {
-            val photo = data.extras?.get("data") as? Bitmap // Safely cast to Bitmap
+            val photo = data.extras?.get("data") as? Bitmap
             if (photo != null) {
                 // Convert Bitmap to Uri and add to list
                 val imageUriString = Images.Media.insertImage(requireContext().contentResolver, photo, "New Image", null)
                 val imageUri = Uri.parse(imageUriString)
-                imageUris.add(imageUri) // Add Uri to the list
-                adapterSelectedImage.notifyDataSetChanged() // Notify RecyclerView adapter
+                try {
+                    requireContext().contentResolver.takePersistableUriPermission(imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                } catch (e: SecurityException) {
+                    e.printStackTrace()
+                }
+                imageUris.add(imageUri)
+                adapterSelectedImage.notifyDataSetChanged()
             }
         }
     }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,10 +106,9 @@ class AddNewFileFragment : Fragment() {
         }
 
         binding.btnDrive.setOnClickListener {
-            selectedImage.launch("image/*")  // Launches the drive/gallery image picker
+            selectedImage.launch("image/*")
         }
 
-        // Camera button click to capture image
         binding.btnCamera.setOnClickListener {
             if (checkCameraPermissions()) {
                 openCamera()
@@ -97,25 +117,48 @@ class AddNewFileFragment : Fragment() {
             }
         }
 
-        // Submit button click to move to the dashboard or save data
+        // Submit button click to save data in SharedPreferences and navigate to Dashboard
         binding.btnSubmit.setOnClickListener {
-            val intent = Intent(requireContext(), DashboardActivity::class.java)
-            startActivity(intent)
+            saveBillToDatabase()
+
         }
 
         return binding.root
+    }
+
+    private fun saveBillToDatabase() {
+        val selectedName = binding.txtbillname.text.toString().trim()
+        val selectedDate = binding.txtDateSet.text.toString().trim()
+        val selectedType = binding.txtTypeSet.text.toString().trim()
+        val imageUrisList = imageUris.toList()
+
+        if (selectedName.isNotEmpty() && selectedDate.isNotEmpty() && selectedType.isNotEmpty()) {
+            val bill = Bill(
+                name = selectedName,
+                date = selectedDate,
+                type = selectedType,
+                imageUri = imageUrisList
+            )
+
+            val billDatabase = BillDatabase.getDatabase(requireContext())
+            lifecycleScope.launch {
+                billDatabase.billDao().insertBill(bill)
+                // Go back to DashboardActivity
+                startActivity(Intent(requireContext(), DashboardActivity::class.java))
+            }
+        } else {
+            Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun checkCameraPermissions(): Boolean {
         return ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }
 
-    // Request camera permission if not granted
     private fun requestCameraPermissions() {
         requestPermissions(arrayOf(Manifest.permission.CAMERA), CAMERA_REQUEST_CODE)
     }
 
-    // Open the camera intent
     private fun openCamera() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         captureImage.launch(cameraIntent)
@@ -124,29 +167,4 @@ class AddNewFileFragment : Fragment() {
     companion object {
         private const val CAMERA_REQUEST_CODE = 1001
     }
-
-
-
-
-
-
-
-   /* private fun saveDataToLocalStorage() {
-        val sharedPreferences = requireContext().getSharedPreferences("Bill", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-
-        // Save basic info like bill name, date, type
-        editor.putString("billnameKey", binding.txtbillname.text.toString())
-        editor.putString("billdateKey", binding.txtDateSet.text.toString())
-        editor.putString("billtypeKey", binding.txtTypeSet.text.toString())
-
-        // Save the image URIs as a comma-separated string
-        val imageUriStrings = imageUris.joinToString(",") { it.toString() }
-        editor.putString("imageUris", imageUriStrings)
-
-        editor.commit()  // Use commit() to ensure synchronous saving
-    }*/
-
-
-
 }
