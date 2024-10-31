@@ -16,3 +16,4 @@ data class Bill(
     val type: String?,
     val imageUri: List<Uri> = emptyList()
 )
+

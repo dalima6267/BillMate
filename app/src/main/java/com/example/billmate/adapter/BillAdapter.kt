@@ -3,6 +3,7 @@ package com.example.billmate.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.billmate.R
 import com.example.billmate.database.Bill
 import com.example.billmate.databinding.DashboardSingleRowBinding
@@ -25,12 +26,10 @@ class BillAdapter(private val billList: List<Bill>) : RecyclerView.Adapter<BillA
             txtDate.text = bill.date
             txtType.text = bill.type
 
-            if (bill.imageUri.isNotEmpty()) {
-                imgView.setImageURI(bill.imageUri[0])
-            } else {
-                imgView.setImageResource(R.drawable.baseline_image_24)
-            }
-        }
-    }
+            Glide.with(holder.itemView.context)
+                .load(bill.imageUri[0])
+                .placeholder(R.drawable.baseline_image_24)  // Fallback placeholder
+                .into(holder.binding.imgView)
 
-}
+        }
+    }}

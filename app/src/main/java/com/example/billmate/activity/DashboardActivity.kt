@@ -44,7 +44,6 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-
     private fun loadBillData() {
         val billDatabase = BillDatabase.getDatabase(this)
         lifecycleScope.launch {
@@ -65,7 +64,6 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-
     private fun setupRecyclerView() {
         billAdapter = BillAdapter(billList)
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
@@ -85,11 +83,5 @@ class DashboardActivity : AppCompatActivity() {
                 Log.e("DashboardActivity", "Error loading fragment: ${e.message}", e)
             }
         }
-    }
-
-
-    override fun onBackPressed() {
-        // Finish the activity to ensure it closes when back is pressed.
-        finishAffinity()
     }
 }

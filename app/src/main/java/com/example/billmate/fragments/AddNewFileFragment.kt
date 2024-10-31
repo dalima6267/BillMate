@@ -38,18 +38,10 @@ class AddNewFileFragment : Fragment() {
     private val selectedImage = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { listOfUri ->
         if (listOfUri.isNotEmpty()) {
             imageUris.clear()  // Clear the list before adding new images
-            listOfUri.forEach { uri ->
-                try {
-                    requireContext().contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                } catch (e: SecurityException) {
-                    e.printStackTrace()
-                }
-                imageUris.add(uri)
-            }
+            imageUris.addAll(listOfUri)
             adapterSelectedImage.notifyDataSetChanged()
         }
     }
-
 
 
     @SuppressLint("NotifyDataSetChanged")
@@ -61,18 +53,11 @@ class AddNewFileFragment : Fragment() {
                 // Convert Bitmap to Uri and add to list
                 val imageUriString = Images.Media.insertImage(requireContext().contentResolver, photo, "New Image", null)
                 val imageUri = Uri.parse(imageUriString)
-                try {
-                    requireContext().contentResolver.takePersistableUriPermission(imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                } catch (e: SecurityException) {
-                    e.printStackTrace()
-                }
                 imageUris.add(imageUri)
                 adapterSelectedImage.notifyDataSetChanged()
             }
         }
     }
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -150,6 +135,16 @@ class AddNewFileFragment : Fragment() {
             Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+
+
+
+
+
+
+
+
 
     private fun checkCameraPermissions(): Boolean {
         return ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED

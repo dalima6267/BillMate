@@ -4,7 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-
+import androidx.room.Delete
+import androidx.room.Update
 
 @Dao
 interface BillDao {
@@ -13,4 +14,6 @@ interface BillDao {
 
     @Query("SELECT * FROM bills")
     suspend fun getAllBills(): List<Bill>
+
+
 }

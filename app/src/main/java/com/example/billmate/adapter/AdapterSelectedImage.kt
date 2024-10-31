@@ -4,6 +4,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.billmate.databinding.ItemViewImageSelectionBinding
 
 class AdapterSelectedImage(
@@ -20,7 +21,12 @@ class AdapterSelectedImage(
     override fun onBindViewHolder(holder: SelectedImageViewHolder, position: Int) {
         val imageUri = imageUris[position]
         holder.binding.apply {
-            ivImage.setImageURI(imageUri)
+            // Load the image using Glide
+            Glide.with(ivImage.context)
+                .load(imageUri)
+                .placeholder(com.example.billmate.R.drawable.baseline_image_24)  // Optional placeholder
+                .into(ivImage)
+
             closeButton.setOnClickListener {
                 if (position < imageUris.size) {
                     imageUris.removeAt(position)
