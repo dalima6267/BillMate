@@ -122,7 +122,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
 
-        android:backgroundTint="@color/white"
+        android:backgroundTint="#EDE3FF"
 
         android:text="Cancel"
 

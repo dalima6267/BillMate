@@ -59,8 +59,8 @@
         android:layout_height="0dp"
         android:layout_below="@id/toolbar"
         android:layout_above="@id/btnAddNewFile"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="40dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
 
     <!-- Add New File Button -->
     <Button
@@ -68,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="0dp"
         android:backgroundTint="#89CFF0"
         android:text="Add new file"
         android:textColor="#ffffff"

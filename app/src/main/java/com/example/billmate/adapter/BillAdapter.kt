@@ -1,10 +1,12 @@
 package com.example.billmate.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.billmate.R
+import com.example.billmate.activity.FileDetailsActivity
 import com.example.billmate.database.Bill
 import com.example.billmate.databinding.DashboardSingleRowBinding
 
@@ -26,10 +28,22 @@ class BillAdapter(private val billList: List<Bill>) : RecyclerView.Adapter<BillA
             txtDate.text = bill.date
             txtType.text = bill.type
 
-            Glide.with(holder.itemView.context)
-                .load(bill.imageUri[0])
-                .placeholder(R.drawable.baseline_image_24)  // Fallback placeholder
-                .into(holder.binding.imgView)
+            if (bill.imageUri.isNotEmpty()) {
+                Glide.with(imgView.context)
+                    .load(bill.imageUri[0])
+                    .placeholder(R.drawable.baseline_image_24)
+                    .into(imgView)
 
+                // Set OnClickListener to open the new activity with only the selected image
+                imgView.setOnClickListener {
+                    val context = holder.itemView.context
+                    val intent = Intent(context, FileDetailsActivity::class.java)
+                    intent.putExtra("imageUri", bill.imageUri[0].toString()) // Pass only the clicked URI as a string
+                    context.startActivity(intent)
+                }
+            } else {
+                imgView.setImageResource(R.drawable.baseline_image_24)
+            }
         }
-    }}
+    }
+}
