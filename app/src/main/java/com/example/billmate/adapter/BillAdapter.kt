@@ -10,7 +10,7 @@ import com.example.billmate.activity.FileDetailsActivity
 import com.example.billmate.database.Bill
 import com.example.billmate.databinding.DashboardSingleRowBinding
 
-class BillAdapter(private val billList: List<Bill>) : RecyclerView.Adapter<BillAdapter.BillViewHolder>() {
+class BillAdapter(private var billList: List<Bill>) : RecyclerView.Adapter<BillAdapter.BillViewHolder>() {
 
     class BillViewHolder(val binding: DashboardSingleRowBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -46,4 +46,10 @@ class BillAdapter(private val billList: List<Bill>) : RecyclerView.Adapter<BillA
             }
         }
     }
+
+    fun updateData(newBills: List<Bill>) {
+        billList = newBills
+        notifyDataSetChanged()
+    }
+
 }

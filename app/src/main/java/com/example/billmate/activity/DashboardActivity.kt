@@ -3,6 +3,8 @@ package com.example.billmate.activity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +26,9 @@ class DashboardActivity : AppCompatActivity() {
         try {
             binding = ActivityDashboardBinding.inflate(layoutInflater)
             setContentView(binding.root)
-
+binding.imgSearch.setOnClickListener {
+    showSearchDialog()
+}
             setupRecyclerView()
             setupAddNewFileButton()
 
@@ -43,6 +47,7 @@ class DashboardActivity : AppCompatActivity() {
             Log.e("DashboardActivity", "Error during onResume: ${e.message}", e)
         }
     }
+
 
     private fun loadBillData() {
         val billDatabase = BillDatabase.getDatabase(this)
@@ -83,5 +88,33 @@ class DashboardActivity : AppCompatActivity() {
                 Log.e("DashboardActivity", "Error loading fragment: ${e.message}", e)
             }
         }
+    }
+    private fun showSearchDialog() {
+        val builder = AlertDialog.Builder(this)
+        val inflater = layoutInflater
+        val dialogLayout = inflater.inflate(R.layout.dialog_search, null)
+        val searchEditText = dialogLayout.findViewById<EditText>(R.id.etSearch)
+
+        builder.setView(dialogLayout)
+            .setPositiveButton("Search") { dialog, _ ->
+                val searchTerm = searchEditText.text.toString()
+                performSearch(searchTerm)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+ 
+    }
+
+    // Function to filter the list based on the search term
+    private fun performSearch(searchTerm: String) {
+        val filteredList = billList.filter {
+            it.name!!.contains(searchTerm, ignoreCase = true) ||
+                    it.date!!.contains(searchTerm, ignoreCase = true) ||
+                    it.type!!.contains(searchTerm, ignoreCase = true)
+        }
+        billAdapter.updateData(filteredList)
     }
 }
