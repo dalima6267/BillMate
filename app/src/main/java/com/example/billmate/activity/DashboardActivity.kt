@@ -29,6 +29,9 @@ class DashboardActivity : AppCompatActivity() {
 binding.imgSearch.setOnClickListener {
     showSearchDialog()
 }
+            binding.imgSort.setOnClickListener {
+                showSortDialog()
+            }
             setupRecyclerView()
             setupAddNewFileButton()
 
@@ -116,5 +119,33 @@ binding.imgSearch.setOnClickListener {
                     it.type!!.contains(searchTerm, ignoreCase = true)
         }
         billAdapter.updateData(filteredList)
+    }
+    private fun showSortDialog() {
+        val options = arrayOf("Sort by Name", "Sort by Date", "Sort by Type")
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Sort Bills")
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> sortBillsByName()
+                    1 -> sortBillsByDate()
+                    2 -> sortBillsByType()
+                }
+            }
+            .show()
+    }
+
+    private fun sortBillsByName() {
+        billList.sortBy { it.name }
+        billAdapter.notifyDataSetChanged()
+    }
+
+    private fun sortBillsByDate() {
+        billList.sortBy { it.date }
+        billAdapter.notifyDataSetChanged()
+    }
+
+    private fun sortBillsByType() {
+        billList.sortBy { it.type }
+        billAdapter.notifyDataSetChanged()
     }
 }

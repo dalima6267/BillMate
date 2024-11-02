@@ -39,6 +39,7 @@
 
         <!-- Search Icon -->
         <ImageView
+            android:id="@+id/imgSort"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:src="@drawable/sort"
