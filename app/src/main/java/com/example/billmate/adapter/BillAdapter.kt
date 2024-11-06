@@ -1,3 +1,4 @@
+
 package com.example.billmate.adapter
 
 import android.content.Intent
@@ -10,7 +11,8 @@ import com.example.billmate.activity.FileDetailsActivity
 import com.example.billmate.database.Bill
 import com.example.billmate.databinding.DashboardSingleRowBinding
 
-class BillAdapter(private var billList: List<Bill>) : RecyclerView.Adapter<BillAdapter.BillViewHolder>() {
+class BillAdapter(private var billList: List<Bill> ,private val onItemSelected: (Bill?) -> Unit) : RecyclerView.Adapter<BillAdapter.BillViewHolder>() {
+    private var selectedPosition = -1
 
     class BillViewHolder(val binding: DashboardSingleRowBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -44,6 +46,15 @@ class BillAdapter(private var billList: List<Bill>) : RecyclerView.Adapter<BillA
             } else {
                 imgView.setImageResource(R.drawable.baseline_image_24)
             }
+            root.setBackgroundResource(
+                if (position == selectedPosition) R.color.gray else android.R.color.transparent
+            )
+            root.setOnLongClickListener {
+                selectedPosition = position
+                notifyDataSetChanged() // Refresh to update background color
+                onItemSelected(bill) // Notify the activity of the selected item
+                true
+            }
         }
     }
 
@@ -51,5 +62,8 @@ class BillAdapter(private var billList: List<Bill>) : RecyclerView.Adapter<BillA
         billList = newBills
         notifyDataSetChanged()
     }
-
+    fun clearSelection() {
+        selectedPosition = -1
+        notifyDataSetChanged()
+    }
 }

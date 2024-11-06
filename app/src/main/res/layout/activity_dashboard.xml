@@ -13,7 +13,8 @@
         android:layout_height="?attr/actionBarSize"
         android:minHeight="?attr/actionBarSize"
         android:background="#89CFF0"
-        android:elevation="4dp"> <!-- Elevation for shadow effect -->
+        android:elevation="4dp"
+       > <!-- Elevation for shadow effect -->
 
         <!-- Toolbar Title -->
         <!-- Toolbar -->
@@ -51,6 +52,25 @@
             android:layout_height="30dp"
             android:layout_gravity="right"
             android:src="@drawable/baseline_search_24" />
+        <ImageView
+            android:id="@+id/imgEdit"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_edit"
+            android:visibility="gone" />
+
+        <!-- Delete Icon (Initially hidden) -->
+        <ImageView
+            android:id="@+id/imgDelete"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+
+            android:src="@drawable/ic_delete"
+            android:visibility="gone" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <!-- RecyclerView -->

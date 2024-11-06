@@ -136,16 +136,6 @@ class AddNewFileFragment : Fragment() {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
     private fun checkCameraPermissions(): Boolean {
         return ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }

@@ -11,9 +11,9 @@ import com.example.billmate.utils.Converters
 @TypeConverters(Converters::class)
 data class Bill(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val name: String?,
-    val date: String?,
-    val type: String?,
+    var name: String?,
+    var date: String?,
+    var type: String?,
     val imageUri: List<Uri> = emptyList()
 )
 

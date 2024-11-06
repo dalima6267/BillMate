@@ -1,3 +1,4 @@
+
 package com.example.billmate.activity
 
 import android.os.Bundle
@@ -20,18 +21,13 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var billAdapter: BillAdapter
     private val billList: MutableList<Bill> = mutableListOf() // Use the entity Bill class
-
+    private var selectedBill: Bill? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
             binding = ActivityDashboardBinding.inflate(layoutInflater)
             setContentView(binding.root)
-binding.imgSearch.setOnClickListener {
-    showSearchDialog()
-}
-            binding.imgSort.setOnClickListener {
-                showSortDialog()
-            }
+            setupToolbarActions()
             setupRecyclerView()
             setupAddNewFileButton()
 
@@ -50,7 +46,25 @@ binding.imgSearch.setOnClickListener {
             Log.e("DashboardActivity", "Error during onResume: ${e.message}", e)
         }
     }
+    private fun setupToolbarActions() {
+        // Set up Edit and Delete icon actions
+        binding.imgEdit.setOnClickListener {
+            selectedBill?.let { editBill(it) }
+        }
 
+        binding.imgDelete.setOnClickListener {
+            selectedBill?.let { deleteBill(it) }
+        }
+
+        // Set up Search and Sort icon actions
+        binding.imgSearch.setOnClickListener {
+            showSearchDialog()
+        }
+
+        binding.imgSort.setOnClickListener {
+            showSortDialog()
+        }
+    }
 
     private fun loadBillData() {
         val billDatabase = BillDatabase.getDatabase(this)
@@ -73,11 +87,33 @@ binding.imgSearch.setOnClickListener {
     }
 
     private fun setupRecyclerView() {
-        billAdapter = BillAdapter(billList)
+        billAdapter = BillAdapter(billList) { selected ->
+            selectedBill = selected
+            updateToolbarIcons()
+        }
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
         binding.recyclerview.adapter = billAdapter
     }
-
+    private fun updateToolbarIcons() {
+        if (selectedBill != null) {
+            // Show edit and delete, hide search and sort
+            binding.imgEdit.visibility = View.VISIBLE
+            binding.imgDelete.visibility = View.VISIBLE
+            binding.imgSearch.visibility = View.GONE
+            binding.imgSort.visibility = View.GONE
+        } else {
+            // Show search and sort, hide edit and delete
+            binding.imgEdit.visibility = View.GONE
+            binding.imgDelete.visibility = View.GONE
+            binding.imgSearch.visibility = View.VISIBLE
+            binding.imgSort.visibility = View.VISIBLE
+        }
+    }
+    private fun clearSelection() {
+        selectedBill = null
+        billAdapter.clearSelection() // Reset selection in adapter
+        updateToolbarIcons()
+    }
     private fun setupAddNewFileButton() {
         binding.btnAddNewFile.setOnClickListener {
             try {
@@ -108,7 +144,7 @@ binding.imgSearch.setOnClickListener {
                 dialog.dismiss()
             }
             .show()
- 
+
     }
 
     // Function to filter the list based on the search term
@@ -147,5 +183,40 @@ binding.imgSearch.setOnClickListener {
     private fun sortBillsByType() {
         billList.sortBy { it.type }
         billAdapter.notifyDataSetChanged()
+    }
+    private fun deleteBill(bill: Bill) {
+        val billDatabase = BillDatabase.getDatabase(this)
+        lifecycleScope.launch {
+            billDatabase.billDao().delete(bill)
+            loadBillData() // Refresh list after deletion
+            clearSelection() // Reset toolbar
+        }
+    }
+    private fun editBill(bill: Bill) {
+        // Show a dialog to edit bill details
+        val builder = AlertDialog.Builder(this)
+        val inflater = layoutInflater
+        val dialogLayout = inflater.inflate(R.layout.dialog_edit_bill, null)
+        val editTextName = dialogLayout.findViewById<EditText>(R.id.etBillName)
+        val editTextDate = dialogLayout.findViewById<EditText>(R.id.etBillDate)
+        val editTextType = dialogLayout.findViewById<EditText>(R.id.etBillType)
+
+        editTextName.setText(bill.name)
+        editTextDate.setText(bill.date)
+        editTextType.setText(bill.type)
+
+        builder.setView(dialogLayout)
+            .setPositiveButton("Save") { _, _ ->
+                lifecycleScope.launch {
+                    bill.name = editTextName.text.toString()
+                    bill.date = editTextDate.text.toString()
+                    bill.type = editTextType.text.toString()
+                    BillDatabase.getDatabase(this@DashboardActivity).billDao().updateBill(bill)
+                    loadBillData()  // Refresh data after editing
+                    clearSelection()  // Hide toolbar options
+                }
+            }
+            .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 }

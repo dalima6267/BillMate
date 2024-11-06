@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Bill Name Input -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bill Name"
+        android:textAppearance="?attr/textAppearanceSubtitle1" />
+
+    <EditText
+        android:id="@+id/etBillName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter bill name"
+        android:inputType="text"
+        android:padding="8dp"
+        android:background="@drawable/edit_text_background" />
+
+    <!-- Bill Date Input -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bill Date"
+        android:layout_marginTop="16dp"
+        android:textAppearance="?attr/textAppearanceSubtitle1" />
+
+    <EditText
+        android:id="@+id/etBillDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter bill date"
+        android:inputType="date"
+        android:padding="8dp"
+        android:background="@drawable/edit_text_background" />
+
+    <!-- Bill Type Input -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bill Type"
+        android:layout_marginTop="16dp"
+        android:textAppearance="?attr/textAppearanceSubtitle1" />
+
+    <EditText
+        android:id="@+id/etBillType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter bill type"
+        android:inputType="text"
+        android:padding="8dp"
+        android:background="@drawable/edit_text_background" />
+
+</LinearLayout>
