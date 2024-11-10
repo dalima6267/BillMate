@@ -1,6 +1,7 @@
 
 package com.example.billmate.adapter
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -23,7 +24,7 @@ class BillAdapter(private var billList: List<Bill> ,private val onItemSelected: 
 
     override fun getItemCount(): Int = billList.size
 
-    override fun onBindViewHolder(holder: BillViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BillViewHolder, @SuppressLint("RecyclerView") position: Int) {
         val bill = billList[position]
         holder.binding.apply {
             txtFileName.text = bill.name

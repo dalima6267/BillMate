@@ -87,6 +87,8 @@
         android:layout_below="@id/toolbar"
         android:layout_above="@id/btnAddNewFile"
         android:layout_marginTop="10dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
         android:layout_marginBottom="10dp" />
 
     <!-- Add New File Button -->

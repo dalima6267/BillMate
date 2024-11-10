@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_image_24"
+            android:visibility="visible"
             android:adjustViewBounds="true"/>
         <ImageButton
             android:id="@+id/closeButton"
@@ -26,6 +27,7 @@
             android:src="@drawable/baseline_close_24"
             android:background="@android:color/transparent"
             android:padding="1.30dp"
+            android:visibility="visible"
             android:layout_alignParentEnd="true"/>
 
     </RelativeLayout>

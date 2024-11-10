@@ -94,6 +94,7 @@ class DashboardActivity : AppCompatActivity() {
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
         binding.recyclerview.adapter = billAdapter
     }
+
     private fun updateToolbarIcons() {
         if (selectedBill != null) {
             // Show edit and delete, hide search and sort

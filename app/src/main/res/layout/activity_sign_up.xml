@@ -7,16 +7,36 @@
     android:layout_height="match_parent"
     android:background="@drawable/loginbbackground"
     tools:context=".activity.SignUpActivity">
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgProfile"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="128dp"
-        android:src="@drawable/add_friend"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="136dp"
+        android:src="@drawable/user"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.01" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+
+        android:id="@+id/imgPlus"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/add"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="2dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
+        app:layout_constraintEnd_toEndOf="@+id/imgProfile"
+        app:layout_constraintHorizontal_bias="0.907"
+        app:layout_constraintStart_toStartOf="@+id/imgProfile"
+        app:layout_constraintTop_toTopOf="@+id/imgProfile"
+        app:layout_constraintVertical_bias="0.842"
+        app:layout_editor_absoluteX="146dp"
+        app:layout_editor_absoluteY="317dp" />
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutName"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

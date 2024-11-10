@@ -16,4 +16,6 @@ val allTypesofBills= arrayOf(
             "Entertainment and Leisure bills",
              "Others"
 )
+    const val USER_NODE="Users"
+    const val USER_PROFILE_FOLDER="Profile"
 }

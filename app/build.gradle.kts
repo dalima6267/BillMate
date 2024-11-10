@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt") // Use kapt for Kotlin annotation processing
+    id("kotlin-kapt")
+    alias(libs.plugins.google.gms.google.services) // Use kapt for Kotlin annotation processing
 }
 
 android {
@@ -46,14 +47,21 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.adapters)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.storage)
+    implementation(libs.firebase.database)
+    implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.glide)
     implementation(libs.gson)
+    implementation(libs.androidx.cardview)
 
     val room_version = "2.6.1"
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx.v261)
     kapt(libs.androidx.room.compiler.v261) // Use kapt for Room's annotation processor
+    implementation(libs.circleimageview)
+    implementation(libs.picasso)
 }
