@@ -5,7 +5,7 @@ import com.google.firebase.storage.FirebaseStorage
 import java.util.UUID
 
 fun uploadImage(uri: Uri, folderName:String, callback:(String?)->Unit){
-    var imageUrl:String?=null
+    var imageUrl:String?
     FirebaseStorage.getInstance().getReference(folderName).child(UUID.randomUUID().toString())
         .putFile(uri)
         .addOnSuccessListener {
@@ -14,6 +14,4 @@ fun uploadImage(uri: Uri, folderName:String, callback:(String?)->Unit){
                 callback(imageUrl)
             }
         }
-        }
-
-
+}

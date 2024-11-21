@@ -17,5 +17,6 @@ val allTypesofBills= arrayOf(
              "Others"
 )
     const val USER_NODE="Users"
-    const val USER_PROFILE_FOLDER="Profile"
+    const val USER_PROFILE_FOLDER = "Profile"
+
 }
