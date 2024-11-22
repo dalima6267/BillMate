@@ -21,9 +21,11 @@ interface BillDao {
     suspend fun delete(bill: Bill)
 
     // Method to delete multiple bills
-
+    @Delete
+    suspend fun deleteMultiple(bills: List<Bill>)
 
     // Method to update a bill
     @Update
     suspend fun updateBill(bill: Bill)
 }
+

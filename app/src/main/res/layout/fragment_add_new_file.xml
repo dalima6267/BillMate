@@ -63,7 +63,31 @@
             android:hint="Enter date" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtAmount"
+        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="26dp"
+        app:boxCornerRadiusBottomEnd="6dp"
+        app:boxCornerRadiusBottomStart="6dp"
+        app:boxCornerRadiusTopEnd="6dp"
+        app:boxCornerRadiusTopStart="6dp"
+        android:layout_margin="20dp"
+        app:endIconMode="clear_text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtName">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtbillAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:hint="Enter bill Amount"
+            android:inputType="number"
+            android:textColorHint="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtType"
@@ -73,7 +97,7 @@
         android:layout_margin="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtName">
+        app:layout_constraintTop_toBottomOf="@+id/txtAmount">
 
         <!-- Inside text input layout add
               an auto complete text view

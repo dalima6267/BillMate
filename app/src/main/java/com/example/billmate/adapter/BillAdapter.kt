@@ -1,9 +1,9 @@
-
 package com.example.billmate.adapter
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,8 +12,12 @@ import com.example.billmate.activity.FileDetailsActivity
 import com.example.billmate.database.Bill
 import com.example.billmate.databinding.DashboardSingleRowBinding
 
-class BillAdapter(private var billList: List<Bill> ,private val onItemSelected: (Bill?) -> Unit) : RecyclerView.Adapter<BillAdapter.BillViewHolder>() {
-    private var selectedPosition = -1
+class BillAdapter(
+    private var billList: List<Bill>,
+    private val onItemSelected: (List<Bill>) -> Unit // Pass a list of selected items
+) : RecyclerView.Adapter<BillAdapter.BillViewHolder>() {
+
+    private val selectedItems = mutableSetOf<Bill>() // Maintain selected items
 
     class BillViewHolder(val binding: DashboardSingleRowBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -37,34 +41,59 @@ class BillAdapter(private var billList: List<Bill> ,private val onItemSelected: 
                     .placeholder(R.drawable.baseline_image_24)
                     .into(imgView)
 
-                // Set OnClickListener to open the new activity with only the selected image
                 imgView.setOnClickListener {
                     val context = holder.itemView.context
                     val intent = Intent(context, FileDetailsActivity::class.java)
-                    intent.putExtra("imageUri", bill.imageUri[0].toString()) // Pass only the clicked URI as a string
+                    intent.putExtra("imageUri", bill.imageUri[0].toString())
                     context.startActivity(intent)
                 }
             } else {
                 imgView.setImageResource(R.drawable.baseline_image_24)
             }
-            root.setBackgroundResource(
-                if (position == selectedPosition) R.color.gray else android.R.color.transparent
+
+            cardView.visibility = View.VISIBLE
+
+            // Highlight selected items
+            cardView.setBackgroundResource(
+                if (selectedItems.contains(bill)) R.color.gray else R.color.white
             )
-            root.setOnLongClickListener {
-                selectedPosition = position
-                notifyDataSetChanged() // Refresh to update background color
-                onItemSelected(bill) // Notify the activity of the selected item
+
+            // Handle item selection on long click
+            cardView.setOnLongClickListener {
+                toggleSelection(bill)
                 true
+            }
+
+            // Handle regular click for single action
+            cardView.setOnClickListener {
+                if (selectedItems.isNotEmpty()) {
+                    // If in selection mode, toggle selection on click
+                    toggleSelection(bill)
+                }
             }
         }
     }
 
+    private fun toggleSelection(bill: Bill) {
+        if (selectedItems.contains(bill)) {
+            selectedItems.remove(bill)
+        } else {
+            selectedItems.add(bill)
+        }
+        notifyDataSetChanged()
+        onItemSelected(selectedItems.toList()) // Notify activity of updated selection
+    }
+
     fun updateData(newBills: List<Bill>) {
         billList = newBills
+        selectedItems.clear()
         notifyDataSetChanged()
     }
+
     fun clearSelection() {
-        selectedPosition = -1
+        selectedItems.clear()
         notifyDataSetChanged()
     }
+
+    fun getSelectedItems(): List<Bill> = selectedItems.toList() // Retrieve selected items
 }

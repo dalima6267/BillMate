@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -53,8 +54,15 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         binding.imgDelete.setOnClickListener {
-            selectedBill?.let { deleteBill(it) }
+            val selectedBills = billAdapter.getSelectedItems() // Retrieve all selected items
+            if (selectedBills.isNotEmpty()) {
+                deleteBill(selectedBills) // Delete the selected items
+            } else {
+                // Optional: Show a message if no items are selected
+                Toast.makeText(this, "No items selected to delete", Toast.LENGTH_SHORT).show()
+            }
         }
+
 
         // Set up Search and Sort icon actions
         binding.imgSearch.setOnClickListener {
@@ -75,25 +83,32 @@ class DashboardActivity : AppCompatActivity() {
                     billList.clear()
                     billList.addAll(bills)
                     binding.txtNoData.visibility = View.GONE
+                    billAdapter.notifyDataSetChanged() // Notify adapter of data changes
                 } else {
                     binding.txtNoData.visibility = View.VISIBLE
                     binding.txtNoData.text = "No bills added yet."
                 }
-                billAdapter.notifyDataSetChanged()
             } catch (e: Exception) {
                 Log.e("DashboardActivity", "Error loading data: ${e.message}", e)
             }
         }
     }
 
+
     private fun setupRecyclerView() {
-        billAdapter = BillAdapter(billList) { selected ->
-            selectedBill = selected
-            updateToolbarIcons()
+        billAdapter = BillAdapter(billList) { selectedItems ->
+            if (selectedItems.isNotEmpty()) {
+                selectedBill = selectedItems.first() // Assign the first selected item (optional)
+            } else {
+                selectedBill = null // Clear selection if nothing is selected
+            }
+            updateToolbarIcons() // Update toolbar based on selection
         }
+
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
         binding.recyclerview.adapter = billAdapter
     }
+
 
     private fun updateToolbarIcons() {
         if (selectedBill != null) {
@@ -185,12 +200,16 @@ class DashboardActivity : AppCompatActivity() {
         billList.sortBy { it.type }
         billAdapter.notifyDataSetChanged()
     }
-    private fun deleteBill(bill: Bill) {
+    private fun deleteBill(selectedBills: List<Bill>) {
         val billDatabase = BillDatabase.getDatabase(this)
         lifecycleScope.launch {
-            billDatabase.billDao().delete(bill)
-            loadBillData() // Refresh list after deletion
-            clearSelection() // Reset toolbar
+            try {
+                billDatabase.billDao().deleteMultiple(selectedBills) // Use the DAO's deleteMultiple method
+                loadBillData() // Refresh the list after deletion
+                clearSelection() // Reset the toolbar and selection
+            } catch (e: Exception) {
+                Log.e("DashboardActivity", "Error deleting multiple bills: ${e.message}", e)
+            }
         }
     }
     private fun editBill(bill: Bill) {

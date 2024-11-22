@@ -2,6 +2,7 @@ package com.example.billmate.adapter
 
 import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -22,6 +23,10 @@ class AdapterSelectedImage(
         val imageUri = imageUris[position]
         holder.binding.apply {
             // Load the image using Glide
+
+            ivImage.visibility= View.VISIBLE
+
+            closeButton.visibility=View.VISIBLE
             Glide.with(ivImage.context)
                 .load(imageUri)
                 .placeholder(com.example.billmate.R.drawable.baseline_image_24)  // Optional placeholder

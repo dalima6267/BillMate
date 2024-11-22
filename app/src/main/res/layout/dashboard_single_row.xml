@@ -2,12 +2,14 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cardView="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    cardView:cardCornerRadius="8dp"
-    android:id="@+id/cardView"
-    cardView:cardElevation="4dp">
+    android:layout_margin="5dp"
+    cardView:cardBackgroundColor="@android:color/white"
+    cardView:cardCornerRadius="12dp"
+    cardView:cardElevation="4dp"
+    android:visibility="visible">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,11 +49,21 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:padding="8dp" />
+        <TextView
+            android:id="@+id/txtAmount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Amount"
+            android:textSize="14sp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:padding="8dp" />
 
         <ImageView
             android:id="@+id/imgView"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:scaleType="centerCrop"
             android:contentDescription="Bill Image"
             android:src="@drawable/baseline_image_24" />

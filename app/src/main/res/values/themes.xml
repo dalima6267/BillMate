@@ -8,4 +8,6 @@
     </style>
 
     <style name="Theme.BillMate" parent="Base.Theme.BillMate" />
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar"/>
+
 </resources>
