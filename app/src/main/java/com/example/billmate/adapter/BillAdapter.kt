@@ -11,6 +11,7 @@ import com.example.billmate.R
 import com.example.billmate.activity.FileDetailsActivity
 import com.example.billmate.database.Bill
 import com.example.billmate.databinding.DashboardSingleRowBinding
+import java.text.DecimalFormat
 
 class BillAdapter(
     private var billList: List<Bill>,
@@ -28,13 +29,20 @@ class BillAdapter(
 
     override fun getItemCount(): Int = billList.size
 
-    override fun onBindViewHolder(holder: BillViewHolder, @SuppressLint("RecyclerView") position: Int) {
+    @SuppressLint("RecyclerView")
+    override fun onBindViewHolder(holder: BillViewHolder, position: Int) {
         val bill = billList[position]
         holder.binding.apply {
+            // Set bill details
             txtFileName.text = bill.name
             txtDate.text = bill.date
             txtType.text = bill.type
 
+            // Format the amount using DecimalFormat
+           val formattedAmount = DecimalFormat("#,###.##").format(bill.amount ?: 0.0)
+           txtAmount.text = formattedAmount
+
+            // Handle image display
             if (bill.imageUri.isNotEmpty()) {
                 Glide.with(imgView.context)
                     .load(bill.imageUri[0])
@@ -51,49 +59,48 @@ class BillAdapter(
                 imgView.setImageResource(R.drawable.baseline_image_24)
             }
 
-            cardView.visibility = View.VISIBLE
-
-            // Highlight selected items
+            // Handle item selection visual and interaction
             cardView.setBackgroundResource(
                 if (selectedItems.contains(bill)) R.color.gray else R.color.white
             )
 
-            // Handle item selection on long click
-            cardView.setOnLongClickListener {
+            // Handle both long click and single click to toggle selection
+            cardView.setOnClickListener {
                 toggleSelection(bill)
-                true
             }
 
-            // Handle regular click for single action
-            cardView.setOnClickListener {
-                if (selectedItems.isNotEmpty()) {
-                    // If in selection mode, toggle selection on click
-                    toggleSelection(bill)
-                }
+            cardView.setOnLongClickListener {
+                toggleSelection(bill)
+                true // Return true to consume the long-click event
             }
         }
     }
 
+    // Toggle selection of bill
     private fun toggleSelection(bill: Bill) {
         if (selectedItems.contains(bill)) {
             selectedItems.remove(bill)
         } else {
             selectedItems.add(bill)
         }
-        notifyDataSetChanged()
+        // Notify only that a specific item changed, not the entire list
+        notifyItemChanged(billList.indexOf(bill))
         onItemSelected(selectedItems.toList()) // Notify activity of updated selection
     }
 
+    // Update the bill list and clear previous selections
     fun updateData(newBills: List<Bill>) {
         billList = newBills
-        selectedItems.clear()
-        notifyDataSetChanged()
+        selectedItems.clear() // Clear selection whenever data changes
+        notifyDataSetChanged() // Notify the entire adapter to refresh
     }
 
+    // Clear selection
     fun clearSelection() {
         selectedItems.clear()
-        notifyDataSetChanged()
+        notifyDataSetChanged() // Refresh the list when selections are cleared
     }
 
+    // Get the list of selected items
     fun getSelectedItems(): List<Bill> = selectedItems.toList() // Retrieve selected items
 }

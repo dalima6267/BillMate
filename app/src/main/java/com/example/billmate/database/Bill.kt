@@ -10,10 +10,13 @@ import com.example.billmate.utils.Converters
 @Entity(tableName = "bills")
 @TypeConverters(Converters::class)
 data class Bill(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     var name: String?,
     var date: String?,
     var type: String?,
-    val imageUri: List<Uri> = emptyList()
+
+    var amount: Double? = 0.0,
+    var imageUri: List<Uri> = emptyList()// Add amount field
 )
+
 

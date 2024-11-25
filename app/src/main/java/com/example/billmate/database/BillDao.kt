@@ -6,26 +6,32 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Delete
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BillDao {
 
+    // Insert a single bill into the database. If a bill already exists, replace it.
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBill(bill: Bill)
 
+    // Fetch all bills from the database
     @Query("SELECT * FROM bills")
     suspend fun getAllBills(): List<Bill>
 
-    // Method to delete a specific bill
+    // Fetch all bills from the database as a Flow (useful for observing changes)
+    @Query("SELECT * FROM bills")
+    fun getAllBillsAsFlow(): Flow<List<Bill>>
+
+    // Delete a single bill
     @Delete
     suspend fun delete(bill: Bill)
 
-    // Method to delete multiple bills
+    // Delete multiple bills at once
     @Delete
     suspend fun deleteMultiple(bills: List<Bill>)
 
-    // Method to update a bill
+    // Update a bill's data in the database
     @Update
     suspend fun updateBill(bill: Bill)
 }
-

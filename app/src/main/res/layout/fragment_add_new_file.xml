@@ -85,7 +85,7 @@
             android:textColor="@color/black"
             android:textSize="18sp"
             android:hint="Enter bill Amount"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textColorHint="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -115,13 +115,20 @@ class AddNewFileFragment : Fragment() {
         val selectedName = binding.txtbillname.text.toString().trim()
         val selectedDate = binding.txtDateSet.text.toString().trim()
         val selectedType = binding.txtTypeSet.text.toString().trim()
+
+        // Retrieve the amount entered by the user
+        val selectedAmount = binding.txtbillAmount.text.toString().toDoubleOrNull()
+
+        // Convert the imageUris list to a list of strings (or use Uri if supported in your schema)
         val imageUrisList = imageUris.toList()
 
-        if (selectedName.isNotEmpty() && selectedDate.isNotEmpty() && selectedType.isNotEmpty()) {
+        // Check if all fields are filled correctly
+        if (selectedName.isNotEmpty() && selectedDate.isNotEmpty() && selectedType.isNotEmpty() && selectedAmount != null) {
             val bill = Bill(
                 name = selectedName,
                 date = selectedDate,
                 type = selectedType,
+                amount = selectedAmount, // Pass the amount here
                 imageUri = imageUrisList
             )
 

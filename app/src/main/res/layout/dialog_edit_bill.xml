@@ -37,6 +37,21 @@
         android:inputType="date"
         android:padding="8dp"
         android:background="@drawable/edit_text_background" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bill Amount"
+        android:layout_marginTop="16dp"
+        android:textAppearance="?attr/textAppearanceSubtitle1" />
+
+    <EditText
+        android:id="@+id/etBillAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter bill amount"
+        android:inputType="date"
+        android:padding="8dp"
+        android:background="@drawable/edit_text_background" />
 
     <!-- Bill Type Input -->
     <TextView

@@ -24,9 +24,7 @@ class AdapterSelectedImage(
         holder.binding.apply {
             // Load the image using Glide
 
-            ivImage.visibility= View.VISIBLE
 
-            closeButton.visibility=View.VISIBLE
             Glide.with(ivImage.context)
                 .load(imageUri)
                 .placeholder(com.example.billmate.R.drawable.baseline_image_24)  // Optional placeholder
