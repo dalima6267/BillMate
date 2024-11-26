@@ -17,6 +17,11 @@ class FileDetailsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Get the image URI from the Intent
+        val name = intent.getStringExtra("name") ?: "N/A"
+        val date = intent.getStringExtra("date") ?: "N/A"
+        val type = intent.getStringExtra("type") ?: "N/A"
+        val amount = intent.getStringExtra("amount") ?: "N/A"
+
         val imageUriString = intent.getStringExtra("imageUri")
         if (imageUriString != null) {
             val imageUri = Uri.parse(imageUriString)
@@ -27,5 +32,10 @@ class FileDetailsActivity : AppCompatActivity() {
                 .placeholder(R.drawable.baseline_image_24)  // Optional placeholder image
                 .into(binding.imageView)
         }
+        binding.filename.text = "Name: $name"
+        binding.fileDate.text = "Date: $date"
+        binding.filetype.text = "Type: $type"
+        binding.fileamount.text = "Amount: $amount"
+
     }
 }

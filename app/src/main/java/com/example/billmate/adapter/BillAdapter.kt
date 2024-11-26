@@ -49,10 +49,14 @@ class BillAdapter(
                     .placeholder(R.drawable.baseline_image_24)
                     .into(imgView)
 
-                imgView.setOnClickListener {
+                cardView.setOnClickListener {
                     val context = holder.itemView.context
                     val intent = Intent(context, FileDetailsActivity::class.java)
                     intent.putExtra("imageUri", bill.imageUri[0].toString())
+                    intent.putExtra("name",bill.name)
+                    intent.putExtra("date",bill.date)
+                    intent.putExtra("type",bill.type)
+                    intent.putExtra("amount",formattedAmount)
                     context.startActivity(intent)
                 }
             } else {
@@ -65,9 +69,7 @@ class BillAdapter(
             )
 
             // Handle both long click and single click to toggle selection
-            cardView.setOnClickListener {
-                toggleSelection(bill)
-            }
+
 
             cardView.setOnLongClickListener {
                 toggleSelection(bill)
