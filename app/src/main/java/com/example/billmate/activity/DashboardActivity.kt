@@ -12,10 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.billmate.R
 import com.example.billmate.adapter.BillAdapter
 import com.example.billmate.database.Bill
+import com.example.billmate.database.BillDao
 import com.example.billmate.database.BillDatabase
 import com.example.billmate.databinding.ActivityDashboardBinding
 import com.example.billmate.fragments.AddNewFileFragment
+import com.example.billmate.utils.ExcelExporter.exportBillsToExcel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -33,6 +37,7 @@ class DashboardActivity : AppCompatActivity() {
         setupRecyclerView()
         setupAddNewFileButton()
         loadBillData()
+
     }
 
     override fun onResume() {
@@ -51,6 +56,25 @@ class DashboardActivity : AppCompatActivity() {
 
         binding.imgSearch.setOnClickListener { showSearchDialog() }
         binding.imgSort.setOnClickListener { showSortDialog() }
+
+        binding.imgExport.setOnClickListener {
+            lifecycleScope.launch {
+                try {
+                    val bills = withContext(Dispatchers.IO) {
+                        BillDatabase.getDatabase(this@DashboardActivity).billDao().getAllBills()
+                    }
+                    if (bills.isNotEmpty()) {
+                        exportBillsToExcel(this@DashboardActivity, bills, "Bills_${System.currentTimeMillis()}.xlsx")
+                        Toast.makeText(this@DashboardActivity, "Bills exported successfully", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@DashboardActivity, "No bills to export", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Log.e("DashboardActivity", "Error exporting bills: ${e.message}", e)
+                    Toast.makeText(this@DashboardActivity, "Failed to export bills", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun loadBillData() {
@@ -193,4 +217,12 @@ class DashboardActivity : AppCompatActivity() {
             .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
             .show()
     }
+
+
+    override fun onBackPressed() {
+        // Exit the app when back is pressed
+        finishAffinity()
+    }
+
+
 }

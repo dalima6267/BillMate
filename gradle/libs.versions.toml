@@ -14,6 +14,7 @@ material = "1.12.0"
 activity = "1.9.2"
 constraintlayout = "2.1.4"
 picasso = "2.8"
+poi = "5.2.3"
 roomCompiler = "2.5.0"
 roomCompilerVersion = "2.6.1"
 roomKtx = "2.6.1"
@@ -49,6 +50,8 @@ firebase-storage = { group = "com.google.firebase", name = "firebase-storage", v
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
+poi = { module = "org.apache.poi:poi", version.ref = "poi" }
+poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "poi" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

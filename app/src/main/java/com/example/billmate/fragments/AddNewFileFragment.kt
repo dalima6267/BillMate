@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
@@ -64,6 +65,13 @@ class AddNewFileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddNewFileBinding.inflate(inflater, container, false)
+
+
+        binding.btnCancel.setOnClickListener {
+
+            startActivity(Intent(requireContext(), DashboardActivity::class.java))
+        }
+
 
         // Initialize the adapter for RecyclerView
         adapterSelectedImage = AdapterSelectedImage(imageUris)
@@ -155,6 +163,7 @@ class AddNewFileFragment : Fragment() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         captureImage.launch(cameraIntent)
     }
+
 
     companion object {
         private const val CAMERA_REQUEST_CODE = 1001

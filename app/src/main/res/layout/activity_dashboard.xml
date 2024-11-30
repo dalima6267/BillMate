@@ -54,6 +54,13 @@
             android:layout_gravity="right"
             android:src="@drawable/baseline_search_24" />
         <ImageView
+            android:id="@+id/imgExport"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            android:src="@drawable/baseline_import_export_24" />
+
+        <ImageView
             android:id="@+id/imgEdit"
             android:layout_width="40dp"
             android:layout_height="30dp"

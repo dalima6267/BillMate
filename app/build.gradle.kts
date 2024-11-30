@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.billmate"
-        minSdk = 25
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -41,6 +41,7 @@ android {
 }
 
 dependencies {
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -64,4 +65,7 @@ dependencies {
     kapt(libs.androidx.room.compiler.v261) // Use kapt for Room's annotation processor
     implementation(libs.circleimageview)
     implementation(libs.picasso)
+    implementation(libs.poi)         // For .xls support
+    implementation(libs.poi.ooxml)  // For .xlsx support
+
 }

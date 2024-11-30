@@ -9,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.billmate.databinding.ActivitySignUpBinding
 import com.example.billmate.models.User
 import com.example.billmate.utils.Constants.USER_NODE
-
-
 import com.example.billmate.utils.uploadImage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
