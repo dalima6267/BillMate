@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item
+            android:id="@+id/dashboard"
+            android:title="Dashboard"
+            android:icon="@drawable/baseline_view_day_24"
+            />
+        <item
+            android:id="@+id/analyze"
+            android:title="Analyze"
+            android:icon="@drawable/baseline_analytics_24"
+            />
+    <item
+          android:id="@+id/grops"
+        android:title="Groups"
+        android:icon="@drawable/baseline_group_24"
+        />
+        <item
+            android:id="@+id/split"
+            android:title="Split"
+            android:icon="@drawable/baseline_call_split_24"
+            />
+
+        <item
+            android:id="@+id/profile"
+            android:title="Profile"
+            android:icon="@drawable/baseline_account_circle_24"
+            />
+
+
+</menu>

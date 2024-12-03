@@ -14,13 +14,9 @@
         android:layout_height="?attr/actionBarSize"
         android:minHeight="?attr/actionBarSize"
         android:background="#89CFF0"
-        android:elevation="4dp"
-       > <!-- Elevation for shadow effect -->
+        android:elevation="4dp">
 
         <!-- Toolbar Title -->
-        <!-- Toolbar -->
-
-        <!-- Toolbar changes-->
         <TextView
             android:id="@+id/txtNoData"
             android:layout_width="wrap_content"
@@ -29,7 +25,8 @@
             android:text=""
             android:layout_gravity="center"
             android:textSize="18sp"
-            android:textColor="@android:color/darker_gray"/>
+            android:textColor="@android:color/darker_gray" />
+
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
@@ -39,20 +36,22 @@
             android:text="BillMate"
             android:textSize="25sp" />
 
-        <!-- Search Icon -->
+        <!-- Toolbar Icons -->
         <ImageView
             android:id="@+id/imgSort"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:src="@drawable/sort"
             android:layout_gravity="right"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp" />
+
         <ImageView
             android:id="@+id/imgSearch"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="right"
             android:src="@drawable/baseline_search_24" />
+
         <ImageView
             android:id="@+id/imgExport"
             android:layout_width="40dp"
@@ -69,13 +68,11 @@
             android:src="@drawable/ic_edit"
             android:visibility="gone" />
 
-        <!-- Delete Icon (Initially hidden) -->
         <ImageView
             android:id="@+id/imgDelete"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_gravity="right"
-
             android:src="@drawable/ic_delete"
             android:visibility="gone" />
 
@@ -100,14 +97,22 @@
         android:clipToPadding="false"
         android:scrollbars="vertical" />
 
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        app:menu="@menu/bottom_nav"
+      />
 
     <!-- Add New File Button -->
     <Button
         android:id="@+id/btnAddNewFile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
+        android:layout_above="@id/bottomNavigationView"
         android:backgroundTint="#89CFF0"
         android:text="Add new file"
         android:textColor="#ffffff"

@@ -7,12 +7,13 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.billmate.fragments.AnalyzeFragment
 import com.example.billmate.R
 import com.example.billmate.adapter.BillAdapter
 import com.example.billmate.database.Bill
-import com.example.billmate.database.BillDao
 import com.example.billmate.database.BillDatabase
 import com.example.billmate.databinding.ActivityDashboardBinding
 import com.example.billmate.fragments.AddNewFileFragment
@@ -36,6 +37,7 @@ class DashboardActivity : AppCompatActivity() {
         setupToolbarActions()
         setupRecyclerView()
         setupAddNewFileButton()
+        setupBottomNavigationView()
         loadBillData()
 
     }
@@ -124,6 +126,7 @@ class DashboardActivity : AppCompatActivity() {
     private fun setupAddNewFileButton() {
         binding.btnAddNewFile.setOnClickListener {
             binding.toolbar.visibility = View.GONE
+            binding.bottomNavigationView.visibility=View.GONE
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, AddNewFileFragment())
                 .addToBackStack(null)
@@ -217,12 +220,70 @@ class DashboardActivity : AppCompatActivity() {
             .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
             .show()
     }
+    private fun setupBottomNavigationView() {
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.dashboard -> {
+
+                    showDashboard()
+
+                    true
+                }
+                R.id.analyze -> {
+                    binding.toolbar.visibility = View.GONE
+                    binding.btnAddNewFile.visibility = View.GONE
+                    binding.recyclerview.visibility = View.GONE
+                    binding.txtNoData.visibility = View.GONE
+
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, AnalyzeFragment())
+                        .addToBackStack(null)
+                        .commit()
+                    true
+                }
+                R.id.grops -> {
+
+                    true
+                }
+                R.id.split -> {
+
+                    true
+                }
+                R.id.profile -> {
+
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+    private fun showDashboard() {
+        // Clear back stack to ensure we return to the original activity view
+        supportFragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
+        // Restore activity-specific UI elements
+        binding.toolbar.visibility = View.VISIBLE
+        binding.btnAddNewFile.visibility = View.VISIBLE
+        binding.recyclerview.visibility = View.VISIBLE
+        binding.txtNoData.visibility = if (billList.isEmpty()) View.VISIBLE else View.GONE
+    }
 
 
     override fun onBackPressed() {
-        // Exit the app when back is pressed
-        finishAffinity()
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            // If there's a fragment in the back stack, pop it
+            supportFragmentManager.popBackStack()
+            restoreActivityUI()
+        } else {
+            // Otherwise, exit the app
+            super.onBackPressed()
+        }
     }
-
+    private fun restoreActivityUI() {
+        binding.toolbar.visibility = View.VISIBLE
+        binding.btnAddNewFile.visibility = View.VISIBLE
+        binding.recyclerview.visibility = View.VISIBLE
+        binding.bottomNavigationView.visibility = View.VISIBLE
+    }
 
 }

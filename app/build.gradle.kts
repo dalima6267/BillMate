@@ -67,5 +67,7 @@ dependencies {
     implementation(libs.picasso)
     implementation(libs.poi)         // For .xls support
     implementation(libs.poi.ooxml)  // For .xlsx support
+    implementation(libs.material.v190)
+
 
 }

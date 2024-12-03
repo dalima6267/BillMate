@@ -13,6 +13,8 @@ appcompat = "1.7.0"
 material = "1.12.0"
 activity = "1.9.2"
 constraintlayout = "2.1.4"
+materialVersion = "1.9.0"
+mpandroidchart = "v3.1.0"
 picasso = "2.8"
 poi = "5.2.3"
 roomCompiler = "2.5.0"
@@ -49,6 +51,8 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+material-v190 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
+mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 poi = { module = "org.apache.poi:poi", version.ref = "poi" }
 poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "poi" }
