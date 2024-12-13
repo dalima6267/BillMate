@@ -1,5 +1,6 @@
 [versions]
 agp = "8.6.1"
+anychartAndroid = "1.1.5"
 cardview = "1.0.0"
 circleimageview = "3.1.0"
 glide = "4.16.0"
@@ -36,6 +37,7 @@ androidx-room-compiler-v261 = { module = "androidx.room:room-compiler", version.
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomCompiler" }
 androidx-room-ktx-v261 = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+anychart-android = { module = "com.github.AnyChart:AnyChart-Android", version.ref = "anychartAndroid" }
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }

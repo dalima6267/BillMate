@@ -38,6 +38,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
 }
 
 dependencies {
@@ -68,6 +69,12 @@ dependencies {
     implementation(libs.poi)         // For .xls support
     implementation(libs.poi.ooxml)  // For .xlsx support
     implementation(libs.material.v190)
+    implementation(libs.mpandroidchart)
+
+
+    implementation(libs.anychart.android)
+
+
 
 
 }

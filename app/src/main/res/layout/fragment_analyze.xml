@@ -3,7 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".fragments.AnalyzeFragment">
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp"
+        android:padding="16dp"
+        android:layout_marginBottom="64dp"
+        android:background="#F5F5F5" />
+
+
 
 
 
