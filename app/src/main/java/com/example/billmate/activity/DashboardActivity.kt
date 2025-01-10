@@ -17,6 +17,7 @@ import com.example.billmate.database.Bill
 import com.example.billmate.database.BillDatabase
 import com.example.billmate.databinding.ActivityDashboardBinding
 import com.example.billmate.fragments.AddNewFileFragment
+import com.example.billmate.fragments.GroupsFragment
 import com.example.billmate.utils.ExcelExporter.exportBillsToExcel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -242,6 +243,14 @@ class DashboardActivity : AppCompatActivity() {
                     true
                 }
                 R.id.grops -> {
+                    binding.toolbar.visibility = View.GONE
+                    binding.btnAddNewFile.visibility = View.GONE
+                    binding.recyclerview.visibility = View.GONE
+                    binding.txtNoData.visibility = View.GONE
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, GroupsFragment())
+                        .addToBackStack(null)
+                        .commit()
 
                     true
                 }

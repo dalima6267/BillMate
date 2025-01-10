@@ -5,6 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".fragments.GroupsFragment">
 
+    <!-- RecyclerView for displaying the list of groups -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvGroups"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="80dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/item_group" />
 
-
+    <!-- FloatingActionButton for adding a group -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/fab_add_group"
+        android:src="@drawable/baseline_person_add_24" />
 </FrameLayout>
