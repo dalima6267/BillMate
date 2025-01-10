@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Group Name Input -->
+        <EditText
+            android:id="@+id/etGroupName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Group Name"
+            android:inputType="text"
+            android:padding="8dp" />
+
+        <!-- Group Description Input -->
+        <EditText
+            android:id="@+id/etGroupDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Group Description (optional)"
+            android:inputType="textMultiLine"
+            android:padding="8dp"
+            android:minLines="3" />
+
+        <!-- Group Members Input -->
+        <EditText
+            android:id="@+id/etGroupMembers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Members (comma-separated)"
+            android:inputType="text"
+            android:padding="8dp" />
+
+    </LinearLayout>
+</ScrollView>
