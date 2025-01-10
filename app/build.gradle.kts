@@ -71,6 +71,8 @@ dependencies {
     implementation(libs.material.v190)
     implementation(libs.mpandroidchart)
 
+    implementation(libs.material.v190)
+
 
     implementation(libs.anychart.android)
 

@@ -32,27 +32,14 @@ class GroupsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentGroupsBinding.inflate(inflater, container, false)
-        groupAdapter = GroupAdapter(groupList) { group ->
-            Toast.makeText(requireContext(), "Clicked: ${group.name}", Toast.LENGTH_SHORT).show()
-        }
-        addSampleData()
+        binding.btnAddGroup.visibility = View.VISIBLE
+
         setupRecyclerView()
         setupFabClick()
 
         return binding.root
     }
-    @SuppressLint("NotifyDataSetChanged")
-    private fun addSampleData() {
-        // Sample data
-        val sampleGroups = listOf(
-            Group(name = "Family", description = "Family group for sharing expenses", members = listOf("John", "Jane", "Paul")),
-            Group(name = "Work", description = "Work-related expenses and goals", members = listOf("Alice", "Bob", "Charlie")),
-            Group(name = "Friends", description = "Group for hanging out and splitting costs", members = listOf("David", "Eve", "Frank"))
-        )
 
-        groupList.addAll(sampleGroups)  // Add sample data to groupList
-        groupAdapter.notifyDataSetChanged()  // Notify adapter to refresh the RecyclerView
-    }
     private fun setupRecyclerView() {
         groupAdapter = GroupAdapter(groupList) { group ->
             Toast.makeText(requireContext(), "Clicked: ${group.name}", Toast.LENGTH_SHORT).show()
@@ -61,12 +48,24 @@ class GroupsFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = groupAdapter
         }
+
+        if (groupList.isEmpty()) {
+            binding.rvGroups.visibility = View.GONE
+            binding.tvEmptyView.visibility = View.VISIBLE
+
+        } else {
+            binding.rvGroups.visibility = View.VISIBLE
+            binding.tvEmptyView.visibility = View.GONE
+
+
+        }
+
         Log.d("GroupsFragment", "RecyclerView setup complete")
     }
 
 
     private fun setupFabClick() {
-        binding.fabAddGroup.setOnClickListener {
+        binding.btnAddGroup.setOnClickListener {
             val options = arrayOf("Add Group", "Import Contacts", "Create Expense", "Set Group Goals")
             AlertDialog.Builder(requireContext())
                 .setTitle("Select an Action")
