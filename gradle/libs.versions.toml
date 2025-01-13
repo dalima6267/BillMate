@@ -63,4 +63,3 @@ poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "poi" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
-

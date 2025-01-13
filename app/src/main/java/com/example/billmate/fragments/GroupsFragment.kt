@@ -15,17 +15,20 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.billmate.R
 import com.example.billmate.adapter.GroupAdapter
+import com.example.billmate.database.GroupDatabase
 import com.example.billmate.databinding.FragmentGroupsBinding
 import com.example.billmate.models.Group
+import kotlinx.coroutines.launch
 
 class GroupsFragment : Fragment() {
 
     private lateinit var binding: FragmentGroupsBinding
-    private val groupList: MutableList<Group> = mutableListOf()
     private lateinit var groupAdapter: GroupAdapter
+    private lateinit var groupDatabase: GroupDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +37,9 @@ class GroupsFragment : Fragment() {
         binding = FragmentGroupsBinding.inflate(inflater, container, false)
         binding.btnAddGroup.visibility = View.VISIBLE
 
+        // Initialize the database
+        groupDatabase = GroupDatabase.getDatabase(requireContext())
+
         setupRecyclerView()
         setupFabClick()
 
@@ -41,7 +47,7 @@ class GroupsFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        groupAdapter = GroupAdapter(groupList) { group ->
+        groupAdapter = GroupAdapter { group ->
             Toast.makeText(requireContext(), "Clicked: ${group.name}", Toast.LENGTH_SHORT).show()
         }
         binding.rvGroups.apply {
@@ -49,20 +55,11 @@ class GroupsFragment : Fragment() {
             adapter = groupAdapter
         }
 
-        if (groupList.isEmpty()) {
-            binding.rvGroups.visibility = View.GONE
-            binding.tvEmptyView.visibility = View.VISIBLE
-
-        } else {
-            binding.rvGroups.visibility = View.VISIBLE
-            binding.tvEmptyView.visibility = View.GONE
-
-
-        }
+        // Load groups from the database
+        loadGroupsFromDatabase()
 
         Log.d("GroupsFragment", "RecyclerView setup complete")
     }
-
 
     private fun setupFabClick() {
         binding.btnAddGroup.setOnClickListener {
@@ -94,8 +91,9 @@ class GroupsFragment : Fragment() {
                 if (groupName.isNotEmpty()) {
                     val membersList = groupMembers.split(",").map { it.trim() }.filter { it.isNotEmpty() }
                     val newGroup = Group(name = groupName, description = groupDescription, members = membersList)
-                    groupList.add(newGroup)
-                    groupAdapter.notifyItemInserted(groupList.size - 1)
+
+                    // Insert group into database
+                    insertGroupIntoDatabase(newGroup)
                 } else {
                     Toast.makeText(requireContext(), "Group name cannot be empty", Toast.LENGTH_SHORT).show()
                 }
@@ -104,6 +102,27 @@ class GroupsFragment : Fragment() {
             .show()
     }
 
+    private fun insertGroupIntoDatabase(group: Group) {
+        lifecycleScope.launch {
+            groupDatabase.groupDao().insertGroup(group)
+            loadGroupsFromDatabase()
+        }
+    }
+
+    private fun loadGroupsFromDatabase() {
+        lifecycleScope.launch {
+            val groups = groupDatabase.groupDao().getAllGroups()
+            groupAdapter.submitList(groups)
+
+            if (groups.isEmpty()) {
+                binding.rvGroups.visibility = View.GONE
+                binding.tvEmptyView.visibility = View.VISIBLE
+            } else {
+                binding.rvGroups.visibility = View.VISIBLE
+                binding.tvEmptyView.visibility = View.GONE
+            }
+        }
+    }
 
     private fun importContacts() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
@@ -147,5 +166,4 @@ class GroupsFragment : Fragment() {
             Toast.makeText(requireContext(), "Permission denied to read contacts", Toast.LENGTH_SHORT).show()
         }
     }
-
 }
