@@ -10,7 +10,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -79,27 +81,59 @@ class GroupsFragment : Fragment() {
     }
 
     private fun addGroup() {
-        val inputDialog = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_group, null)
-        AlertDialog.Builder(requireContext())
-            .setTitle("Add Group")
-            .setView(inputDialog)
-            .setPositiveButton("Add") { _, _ ->
-                val groupName = inputDialog.findViewById<EditText>(R.id.etGroupName).text.toString()
-                val groupDescription = inputDialog.findViewById<EditText>(R.id.etGroupDescription).text.toString()
-                val groupMembers = inputDialog.findViewById<EditText>(R.id.etGroupMembers).text.toString()
-
-                if (groupName.isNotEmpty()) {
-                    val membersList = groupMembers.split(",").map { it.trim() }.filter { it.isNotEmpty() }
-                    val newGroup = Group(name = groupName, description = groupDescription, members = membersList)
-
-                    // Insert group into database
-                    insertGroupIntoDatabase(newGroup)
-                } else {
-                    Toast.makeText(requireContext(), "Group name cannot be empty", Toast.LENGTH_SHORT).show()
-                }
-            }
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_group, null)
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+            .setTitle("Add Expense")
+            .setView(dialogView)
             .setNegativeButton("Cancel", null)
-            .show()
+
+        val dialog = dialogBuilder.create()
+        dialog.show()
+
+        // Initialize dialog views
+        val etname= dialogView.findViewById<EditText>(R.id.etName)
+        val etDescription = dialogView.findViewById<EditText>(R.id.etDescription)
+        val etMembers = dialogView.findViewById<EditText>(R.id.etMembers)
+        val etAmount = dialogView.findViewById<EditText>(R.id.etAmount)
+        val rgSplitType = dialogView.findViewById<RadioGroup>(R.id.rgSplitType)
+        val btnSubmitExpense = dialogView.findViewById<Button>(R.id.btnSubmitExpense)
+
+        // Handle "Submit Expense" button click
+        btnSubmitExpense.setOnClickListener {
+            val groupname = etname.text.toString()
+            val groupdescription = etDescription.text.toString()
+            val groupmembers = etMembers.text.toString()
+            val amount = etAmount.text.toString().toDoubleOrNull() ?: 0.0
+            val splitType = when (rgSplitType.checkedRadioButtonId) {
+                R.id.rbYouOwedFull -> "You are owed the full payment"
+                R.id.rbOtherOwedFull -> "Other is owed the full payment"
+                else -> "Split equally among all"
+            }
+
+            if (groupname.isNotEmpty() && groupdescription.isNotEmpty() && amount > 0) {
+                // Convert members string into a list
+                val membersList = groupmembers.split(",").map { it.trim() }.filter { it.isNotEmpty() }
+
+                // Create a new group object
+                val newGroup = Group(
+                    name = groupname,
+                    description = groupdescription,
+                    members = membersList,
+                    totalExpense = amount,
+                    splitType = splitType,
+
+                )
+
+                // Insert group into database
+                insertGroupIntoDatabase(newGroup)
+
+                // Show success message
+                Toast.makeText(requireContext(), "Group added: $groupname, ₹$amount", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            } else {
+                Toast.makeText(requireContext(), "Please fill in all fields correctly", Toast.LENGTH_SHORT).show()
+            }}
+
     }
 
     private fun insertGroupIntoDatabase(group: Group) {

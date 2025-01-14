@@ -4,4 +4,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fab_add_group">Add new group</string>
+    <string-array name="groups_array">
+        <item>All of Me and You</item>
+        <item>Friends</item>
+        <item>Family</item>
+        <item>Colleagues</item>
+        <item>Roommates</item>
+    </string-array>
 </resources>

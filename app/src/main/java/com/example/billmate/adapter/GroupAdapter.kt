@@ -28,7 +28,11 @@ class GroupAdapter(
         fun bind(group: Group, onGroupClick: (Group) -> Unit) {
             binding.apply {
                 tvGroupName.text = group.name
-                tvGroupMembers.text = group.members.joinToString(", ") // Display members
+                tvGroupDescription.text = group.description
+                tvGroupMembers.text = group.members.joinToString(", ")
+                tvAmount.text = "Amount: ₹ ${group.totalExpense}"
+                tvSplitType.text = "Split Type: ${group.splitType}"
+
                 root.setOnClickListener { onGroupClick(group) }
             }
         }
