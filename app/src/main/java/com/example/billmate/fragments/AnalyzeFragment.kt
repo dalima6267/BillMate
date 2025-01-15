@@ -3,10 +3,10 @@ package com.example.billmate.fragments
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.billmate.database.BillDatabase
 import com.example.billmate.databinding.FragmentAnalyzeBinding
@@ -72,7 +72,22 @@ private lateinit var binding:FragmentAnalyzeBinding
         }
 
         val barDataSet = BarDataSet(barEntries, "Amount")
-        barDataSet.color = Color.BLUE
+
+        // Set different colors for each bar
+        val colors = listOf(
+            Color.RED,
+            Color.BLUE,
+            Color.GREEN,
+            Color.YELLOW,
+            Color.MAGENTA,
+            Color.CYAN,
+            Color.DKGRAY,
+            Color.LTGRAY,
+            Color.parseColor("#FF5722"), // Custom color (Orange)
+            Color.parseColor("#009688")  // Custom color (Teal)
+        )
+        barDataSet.colors = colors
+
         barDataSet.valueTextSize = 12f
 
         val barData = BarData(barDataSet)
@@ -92,6 +107,7 @@ private lateinit var binding:FragmentAnalyzeBinding
         binding.barChart.animateY(1000)
         binding.barChart.invalidate() // Refresh chart
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

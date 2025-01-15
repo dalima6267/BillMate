@@ -3,7 +3,6 @@ package com.example.billmate.adapter
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -34,13 +33,13 @@ class BillAdapter(
         val bill = billList[position]
         holder.binding.apply {
             // Set bill details
-            txtFileName.text = bill.name
-            txtDate.text = bill.date
-            txtType.text = bill.type
+            txtFileName.text ="Name: " +bill.name
+            txtDate.text = "Date: " + bill.date
+            txtType.text = "Type: " + bill.type
 
             // Format the amount using DecimalFormat
            val formattedAmount = DecimalFormat("#,###.##").format(bill.amount ?: 0.0)
-           txtAmount.text = formattedAmount
+           txtAmount.text ="Amount: ₹  ${formattedAmount}"
 
             // Handle image display
             if (bill.imageUri.isNotEmpty()) {
@@ -102,7 +101,9 @@ class BillAdapter(
         selectedItems.clear()
         notifyDataSetChanged() // Refresh the list when selections are cleared
     }
-
+    fun isSelectionMode(): Boolean {
+        return selectedItems.isNotEmpty() // Assuming `selectedItems` is a list of selected bills
+    }
     // Get the list of selected items
     fun getSelectedItems(): List<Bill> = selectedItems.toList() // Retrieve selected items
 }

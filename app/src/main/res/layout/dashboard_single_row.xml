@@ -1,71 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:cardView="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    cardView:cardBackgroundColor="@android:color/white"
-    cardView:cardCornerRadius="12dp"
-    cardView:cardElevation="4dp"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp"
+    android:background="@android:color/white"
     android:visibility="visible">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="16dp">
 
-        <TextView
-            android:id="@+id/txtFileName"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="File name"
-            android:textSize="14sp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:padding="8dp" />
+        <!-- Group Details Section -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="72dp"> <!-- Space for ImageView -->
 
-        <TextView
-            android:id="@+id/txtDate"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Date"
-            android:textSize="14sp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:padding="8dp" />
+            <!-- Group Name -->
+            <TextView
+                android:id="@+id/txtFileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bill Name"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:textColor="@color/black" />
 
-        <TextView
-            android:id="@+id/txtType"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Type"
-            android:textSize="14sp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:padding="8dp" />
-        <TextView
-            android:id="@+id/txtAmount"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Amount"
-            android:textSize="14sp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:padding="8dp" />
+            <!-- Group Description -->
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textSize="14sp"
+                android:singleLine="true"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginTop="4dp" />
 
-        <ImageView
-            android:id="@+id/imgView"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:scaleType="centerCrop"
-            android:contentDescription="Bill Image"
-            android:src="@drawable/baseline_image_24" />
-    </LinearLayout>
+            <!-- Divider -->
+
+
+            <!-- Group Members -->
+            <TextView
+                android:id="@+id/txtType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Type"
+                android:textSize="14sp"
+                android:singleLine="true"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginTop="4dp" />
+
+            <!-- Amount -->
+            <TextView
+                android:id="@+id/txtAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amount: ₹0.00"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="8dp"
+                android:singleLine="true"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <!-- Image in the top-right corner -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp">
+
+            <!-- Image -->
+            <ImageView
+                android:id="@+id/imgView"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/baseline_image_24"
+                android:scaleType="centerCrop"
+                android:contentDescription="Bill Image" />
+
+            <!-- Label below Image -->
+            <TextView
+                android:id="@+id/txtImageLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Bill"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>    </RelativeLayout>
 </androidx.cardview.widget.CardView>

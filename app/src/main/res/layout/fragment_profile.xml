@@ -161,7 +161,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Rate Splitwise"
+                android:text="Rate BillMate"
                 android:textColor="@android:color/black" />
         </LinearLayout>
 
@@ -191,8 +191,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Log Out"
-            android:textColor="@android:color/white"
-            android:backgroundTint="@android:color/holo_red_light"
+            android:textColor="@android:color/black"
+            android:backgroundTint="#9063CD"
             android:layout_marginTop="16dp" />
 
     </LinearLayout>

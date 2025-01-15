@@ -16,11 +16,7 @@
         android:title="Groups"
         android:icon="@drawable/baseline_group_24"
         />
-        <item
-            android:id="@+id/split"
-            android:title="Split"
-            android:icon="@drawable/baseline_call_split_24"
-            />
+
 
         <item
             android:id="@+id/profile"

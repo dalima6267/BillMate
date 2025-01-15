@@ -37,6 +37,10 @@ interface GroupDao {
     // Delete a specific group from the database
     @Delete
     suspend fun deleteGroup(group: Group)
+    @Delete
+    suspend fun deleteMultiple(groups: List<Group>)
+
+
 
     // Delete all groups from the database
     @Query("DELETE FROM group_table")

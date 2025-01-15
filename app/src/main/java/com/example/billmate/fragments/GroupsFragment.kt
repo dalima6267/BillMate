@@ -122,7 +122,7 @@ class GroupsFragment : Fragment() {
                     totalExpense = amount,
                     splitType = splitType,
 
-                )
+                    )
 
                 // Insert group into database
                 insertGroupIntoDatabase(newGroup)

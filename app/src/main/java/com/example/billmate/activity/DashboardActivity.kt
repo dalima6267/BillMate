@@ -111,7 +111,8 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun updateToolbarIcons() {
-        val hasSelection = selectedBill != null
+        val hasSelection = billAdapter.isSelectionMode()
+
         binding.imgEdit.visibility = if (hasSelection) View.VISIBLE else View.GONE
         binding.imgDelete.visibility = if (hasSelection) View.VISIBLE else View.GONE
         binding.imgSearch.visibility = if (!hasSelection) View.VISIBLE else View.GONE
@@ -122,6 +123,7 @@ class DashboardActivity : AppCompatActivity() {
         selectedBill = null
         billAdapter.clearSelection()
         updateToolbarIcons()
+        restoreActivityUI()
     }
 
     private fun setupAddNewFileButton() {
@@ -254,10 +256,6 @@ class DashboardActivity : AppCompatActivity() {
 
                     true
                 }
-                R.id.split -> {
-
-                    true
-                }
                 R.id.profile -> {
                     binding.toolbar.visibility = View.GONE
                     binding.btnAddNewFile.visibility = View.GONE
@@ -286,7 +284,10 @@ class DashboardActivity : AppCompatActivity() {
 
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
+        if (billAdapter.isSelectionMode()) {
+            // Exit selection mode
+            clearSelection()
+        } else if (supportFragmentManager.backStackEntryCount > 0) {
             // If there's a fragment in the back stack, pop it
             supportFragmentManager.popBackStack()
             restoreActivityUI()

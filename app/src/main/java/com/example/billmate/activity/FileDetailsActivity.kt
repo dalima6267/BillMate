@@ -35,7 +35,7 @@ class FileDetailsActivity : AppCompatActivity() {
         binding.filename.text = "Name: $name"
         binding.fileDate.text = "Date: $date"
         binding.filetype.text = "Type: $type"
-        binding.fileamount.text = "Amount: $amount"
+        binding.fileamount.text = "Amount: ₹$amount"
 
     }
 }

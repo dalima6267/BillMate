@@ -57,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:clickable="false"
+            android:textSize="18sp"
             android:cursorVisible="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
@@ -84,7 +85,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:hint="Enter bill Amount"
+            android:hint="Enter bill amount"
             android:inputType="numberDecimal"
             android:textColorHint="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -108,7 +109,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:inputType="none"
-            android:text="Types of bill"
+            android:text="Type of bill"
             android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -136,7 +137,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:backgroundTint="#89CFF0"
-        android:text="Upload file from drive"
+        android:text="Upload file from storage"
         android:textColor="@color/black"
         android:drawableLeft="@drawable/baseline_add_to_drive_24"
         app:layout_constraintEnd_toEndOf="parent"
@@ -163,7 +164,7 @@
         android:layout_margin="20dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="#89CFF0"
-        android:text="Submit"
+        android:text="Add Bill"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.849"

@@ -142,7 +142,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
 
-        android:backgroundTint="#EDE3FF"
+        android:backgroundTint="#9063CD"
 
         android:text="Cancel"
 
