@@ -38,21 +38,26 @@
         <!-- Other Activities -->
         <activity
             android:name=".activity.FileDetailsActivity"
-            android:exported="false" />
+            android:exported="false"
+          />
         <activity
             android:name=".activity.SignUpActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activity.LogInActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activity.DashboardActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
 
         <!-- Main entry point - Splash Screen Activity -->
         <activity
             android:name=".activity.SplashScreenActivity"
-            android:exported="true">
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

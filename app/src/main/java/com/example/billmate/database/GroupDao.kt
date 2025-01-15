@@ -39,6 +39,12 @@ interface GroupDao {
     suspend fun deleteGroup(group: Group)
     @Delete
     suspend fun deleteMultiple(groups: List<Group>)
+    @Query("SELECT * FROM group_table ORDER BY " +
+            "CASE WHEN :orderBy = 'name' THEN name END ASC, " +
+            "CASE WHEN :orderBy = 'totalExpense' THEN totalExpense END DESC")
+    suspend fun getGroupsSortedBy(orderBy: String): List<Group>
+    @Query("SELECT * FROM group_table WHERE name LIKE :query")
+    suspend fun searchGroups(query: String): List<Group>
 
 
 

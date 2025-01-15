@@ -1,11 +1,13 @@
 package com.example.billmate.fragments
 
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.billmate.database.BillDatabase
@@ -30,7 +32,20 @@ private lateinit var binding:FragmentAnalyzeBinding
         savedInstanceState: Bundle?
     ): View? {
         binding=FragmentAnalyzeBinding.inflate(inflater,container,false)
-
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+//            val fragmentManager = parentFragmentManager
+//
+//            // Check if there are fragments in the back stack
+//            if (fragmentManager.backStackEntryCount > 0) {
+//                // Pop the current fragment and return to the previous one
+//                fragmentManager.popBackStack()
+//            } else {
+//                // No fragments left in the back stack, navigate to the initial activity
+//                requireActivity().finish() // Close the current activity and return to the previous one
+//            }
+//        }
+        // Make the status bar transparent if the SDK version supports it
+        setStatusBarTextColorToBlack()
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -108,6 +123,18 @@ private lateinit var binding:FragmentAnalyzeBinding
         binding.barChart.invalidate() // Refresh chart
     }
 
+    private fun setStatusBarTextColorToBlack() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val window = requireActivity().window
+
+            // Set the status bar background color to white
+            window.statusBarColor = ContextCompat.getColor(requireContext(), android.R.color.white)
+
+            // Enable light status bar (black text/icons)
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -7,25 +7,26 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.MediaStore.Images
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.example.billmate.adapter.AdapterSelectedImage
 import com.example.billmate.R
 import com.example.billmate.activity.DashboardActivity
+import com.example.billmate.adapter.AdapterSelectedImage
+import com.example.billmate.database.Bill
 import com.example.billmate.database.BillDatabase
 import com.example.billmate.databinding.FragmentAddNewFileBinding
-import com.example.billmate.database.Bill
 import com.example.billmate.utils.Constants
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -65,7 +66,8 @@ class AddNewFileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddNewFileBinding.inflate(inflater, container, false)
-
+        // Make the status bar transparent if the SDK version supports it
+        setStatusBarTextColorToBlack()
 
         binding.btnCancel.setOnClickListener {
 
@@ -162,6 +164,18 @@ class AddNewFileFragment : Fragment() {
     private fun openCamera() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         captureImage.launch(cameraIntent)
+    }
+    private fun setStatusBarTextColorToBlack() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val window = requireActivity().window
+
+            // Set the status bar background color to white
+            window.statusBarColor = ContextCompat.getColor(requireContext(), android.R.color.white)
+
+            // Enable light status bar (black text/icons)
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+
     }
 
 

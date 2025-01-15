@@ -6,7 +6,9 @@
     </style>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="android:statusBarColor">@color/status_bar_color</item>
         <!-- Customize your theme here -->
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.BillMate" parent="Base.Theme.BillMate" />

@@ -1,5 +1,6 @@
 package com.example.billmate.activity
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -7,6 +8,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.billmate.R
@@ -40,6 +42,8 @@ class DashboardActivity : AppCompatActivity() {
         setupAddNewFileButton()
         setupBottomNavigationView()
         loadBillData()
+        setStatusBarTextColorToBlack()
+
 
     }
 
@@ -301,6 +305,18 @@ class DashboardActivity : AppCompatActivity() {
         binding.btnAddNewFile.visibility = View.VISIBLE
         binding.recyclerview.visibility = View.VISIBLE
         binding.bottomNavigationView.visibility = View.VISIBLE
+    }
+
+    private fun setStatusBarTextColorToBlack() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val window = window
+
+            // Set the status bar background color to white
+            window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
+
+            // Enable light status bar (black text/icons)
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
     }
 
 }

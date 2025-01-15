@@ -2,13 +2,16 @@ package com.example.billmate.activity
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.billmate.databinding.ActivityLogInBinding
 import com.example.billmate.models.User
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import android.widget.Toast
 
 class LogInActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLogInBinding
@@ -18,6 +21,10 @@ class LogInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Initialize shared preferences
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            window.statusBarColor = Color.TRANSPARENT
+        }
         sharedPreferences = getSharedPreferences("appPreferences", MODE_PRIVATE)
 
         // Check if the app has been launched before
