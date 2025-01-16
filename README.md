@@ -38,27 +38,27 @@ https://github.com/user-attachments/assets/693b7dbb-3deb-4537-9e2f-c4d3d2dff4c9
 
 SpalashScreen
 
-<img src="https://github.com/user-attachments/assets/2ef67043-edfd-4af5-94b6-23837bfeab57" alt="image1" width="720" height="720">
+<img src="https://github.com/user-attachments/assets/2ef67043-edfd-4af5-94b6-23837bfeab57" alt="image1" width="300" height="600">
 
 DashBoard
 
-![image 2](https://github.com/user-attachments/assets/40f16df2-4302-4e82-a8e5-b66c2f8adcd0)
+  <img src="https://github.com/user-attachments/assets/40f16df2-4302-4e82-a8e5-b66c2f8adcd0" width="300" height="600" alt="Image 2">
 
 Graph between date and amount
 
-![image3](https://github.com/user-attachments/assets/dc50d8d6-ba8b-4ff9-a9c4-e113830fd57a)
+ <img src="https://github.com/user-attachments/assets/dc50d8d6-ba8b-4ff9-a9c4-e113830fd57a" width="300" height="600" alt="Image 3">
 
 Expense tracker
 
-![image 4](https://github.com/user-attachments/assets/0c17e767-d575-42a9-afda-60f85fa6c863)
+  <img src="https://github.com/user-attachments/assets/0c17e767-d575-42a9-afda-60f85fa6c863" width="300" height="600" alt="Image 4">
 
 Profile Section
 
-![image 5](https://github.com/user-attachments/assets/3546d3b3-a39e-4ec7-97bc-b92f35a6407c)
+ <img src="https://github.com/user-attachments/assets/3546d3b3-a39e-4ec7-97bc-b92f35a6407c" width="300" height="600" alt="Image 5">
 
 Aditional Functionality
 
-![image 6](https://github.com/user-attachments/assets/fd520e3c-ccf0-4d86-8a4d-ec2539c586d2)
+ <img src="https://github.com/user-attachments/assets/fd520e3c-ccf0-4d86-8a4d-ec2539c586d2" width="300" height="600" alt="Image 6">
 
 
 
