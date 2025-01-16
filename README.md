@@ -40,6 +40,10 @@ SpalashScreen
 
 <img src="https://github.com/user-attachments/assets/2ef67043-edfd-4af5-94b6-23837bfeab57" alt="image1" width="300" height="600">
 
+Signup/Login Page
+
+<img src="https://github.com/user-attachments/assets/e97e3c55-2518-4783-8937-5230a3930725" alt="image" width="300" height="600">
+
 DashBoard
 
   <img src="https://github.com/user-attachments/assets/40f16df2-4302-4e82-a8e5-b66c2f8adcd0" width="300" height="600" alt="Image 2">
