@@ -38,7 +38,7 @@ https://github.com/user-attachments/assets/693b7dbb-3deb-4537-9e2f-c4d3d2dff4c9
 
 SpalashScreen
 
-<img src="https://github.com/user-attachments/assets/2ef67043-edfd-4af5-94b6-23837bfeab57" alt="image1" width="400" height="300">
+<img src="https://github.com/user-attachments/assets/2ef67043-edfd-4af5-94b6-23837bfeab57" alt="image1" width="720" height="720">
 
 DashBoard
 
@@ -78,6 +78,4 @@ Hello! 👋 I'm a passionate and dedicated final-year student with a deep intere
 [![Github](https://img.shields.io/badge/my_github-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://github.com/dalima6267)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/dalima-sahu)
 [![Leetcode](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://leetcode.com/u/dalima62657/)
-
-
 
