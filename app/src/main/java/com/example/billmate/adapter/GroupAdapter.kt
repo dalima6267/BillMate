@@ -1,5 +1,3 @@
-package com.example.billmate.adapter
-
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.billmate.databinding.ItemGroupBinding
 import com.example.billmate.models.Group
 
+
 class GroupAdapter(
-    private val onGroupClick: (Group) -> Unit
+    private val onGroupClick: (Group) -> Unit,
+    private val onGroupLongClick: (Group) -> Unit
 ) : ListAdapter<Group, GroupAdapter.GroupViewHolder>(GroupDiffCallback()) {
 
     private val selectedGroups = mutableListOf<Group>()
@@ -28,7 +28,7 @@ class GroupAdapter(
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
         val group = getItem(position)
-        holder.bind(group, onGroupClick, isSelected(group))
+        holder.bind(group, onGroupClick, onGroupLongClick, isSelected(group))
     }
 
     private fun isSelected(group: Group): Boolean {
@@ -39,7 +39,7 @@ class GroupAdapter(
         private val binding: ItemGroupBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(group: Group, onGroupClick: (Group) -> Unit, isSelected: Boolean) {
+        fun bind(group: Group, onGroupClick: (Group) -> Unit, onGroupLongClick: (Group) -> Unit, isSelected: Boolean) {
             binding.apply {
                 tvGroupName.text = group.name
                 tvGroupDescription.text = group.description
@@ -51,17 +51,26 @@ class GroupAdapter(
                 root.setBackgroundColor(if (isSelected) Color.LTGRAY else Color.WHITE)
 
                 root.setOnClickListener { onGroupClick(group) }
+                root.setOnLongClickListener {
+                    onGroupLongClick(group)
+                    true
+                }
             }
         }
     }
+    override fun submitList(list: List<Group>?) {
+        super.submitList(list?.let { ArrayList(it) })
+    }
+
+
 
     class GroupDiffCallback : DiffUtil.ItemCallback<Group>() {
         override fun areItemsTheSame(oldItem: Group, newItem: Group): Boolean {
-            return oldItem.id == newItem.id // Check if the IDs are the same
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Group, newItem: Group): Boolean {
-            return oldItem == newItem // Check if the content is the same
+            return oldItem == newItem
         }
     }
 }

@@ -14,10 +14,12 @@ import java.text.DecimalFormat
 
 class BillAdapter(
     private var billList: List<Bill>,
-    private val onItemSelected: (List<Bill>) -> Unit // Pass a list of selected items
+    private val onItemSelected: (List<Bill>) -> Unit, // Callback for selected items
+    private val onSelectionModeChange: (Boolean) -> Unit // Callback for selection mode change
 ) : RecyclerView.Adapter<BillAdapter.BillViewHolder>() {
 
     private val selectedItems = mutableSetOf<Bill>() // Maintain selected items
+    private var selectionMode = false // Track whether selection mode is active
 
     class BillViewHolder(val binding: DashboardSingleRowBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -33,13 +35,13 @@ class BillAdapter(
         val bill = billList[position]
         holder.binding.apply {
             // Set bill details
-            txtFileName.text ="Name: " +bill.name
-            txtDate.text = "Date: " + bill.date
-            txtType.text = "Type: " + bill.type
+            txtFileName.text = "Name: ${bill.name}"
+            txtDate.text = "Date: ${bill.date}"
+            txtType.text = "Type: ${bill.type}"
 
             // Format the amount using DecimalFormat
-           val formattedAmount = DecimalFormat("#,###.##").format(bill.amount ?: 0.0)
-           txtAmount.text ="Amount: ₹  ${formattedAmount}"
+            val formattedAmount = DecimalFormat("#,###.##").format(bill.amount ?: 0.0)
+            txtAmount.text = "Amount: ₹ $formattedAmount"
 
             // Handle image display
             if (bill.imageUri.isNotEmpty()) {
@@ -47,63 +49,86 @@ class BillAdapter(
                     .load(bill.imageUri[0])
                     .placeholder(R.drawable.baseline_image_24)
                     .into(imgView)
-
-                cardView.setOnClickListener {
-                    val context = holder.itemView.context
-                    val intent = Intent(context, FileDetailsActivity::class.java)
-                    intent.putExtra("imageUri", bill.imageUri[0].toString())
-                    intent.putExtra("name",bill.name)
-                    intent.putExtra("date",bill.date)
-                    intent.putExtra("type",bill.type)
-                    intent.putExtra("amount",formattedAmount)
-                    context.startActivity(intent)
-                }
             } else {
                 imgView.setImageResource(R.drawable.baseline_image_24)
             }
 
-            // Handle item selection visual and interaction
+            // Handle item selection visuals
             cardView.setBackgroundResource(
                 if (selectedItems.contains(bill)) R.color.gray else R.color.white
             )
 
-            // Handle both long click and single click to toggle selection
+            // Click listener for selection or detail view
+            cardView.setOnClickListener {
+                if (selectionMode) {
+                    toggleSelection(bill) // Toggle selection if in selection mode
+                } else {
+                    // Open details if not in selection mode
+                    val context = holder.itemView.context
+                    val intent = Intent(context, FileDetailsActivity::class.java).apply {
+                        putExtra("imageUri", bill.imageUri[0].toString())
+                        putExtra("name", bill.name)
+                        putExtra("date", bill.date)
+                        putExtra("type", bill.type)
+                        putExtra("amount", formattedAmount)
+                    }
+                    context.startActivity(intent)
+                }
+            }
 
-
+            // Long click listener to enable selection mode
             cardView.setOnLongClickListener {
-                toggleSelection(bill)
-                true // Return true to consume the long-click event
+                if (!selectionMode) {
+                    enableSelectionMode(bill)
+                }
+                true // Consume the long-click event
             }
         }
     }
 
-    // Toggle selection of bill
+    // Enable selection mode and select the first item
+    private fun enableSelectionMode(bill: Bill) {
+        selectionMode = true
+        toggleSelection(bill)
+        onSelectionModeChange(true) // Notify activity to update UI for selection mode
+    }
+
+    // Toggle selection of a bill
     private fun toggleSelection(bill: Bill) {
         if (selectedItems.contains(bill)) {
             selectedItems.remove(bill)
         } else {
             selectedItems.add(bill)
         }
-        // Notify only that a specific item changed, not the entire list
         notifyItemChanged(billList.indexOf(bill))
         onItemSelected(selectedItems.toList()) // Notify activity of updated selection
+    }
+
+    // Reset selection mode and clear all selections
+    fun resetSelection() {
+        selectionMode = false
+        selectedItems.clear()
+        notifyDataSetChanged()
+        onSelectionModeChange(false) // Notify activity to restore UI
     }
 
     // Update the bill list and clear previous selections
     fun updateData(newBills: List<Bill>) {
         billList = newBills
-        selectedItems.clear() // Clear selection whenever data changes
-        notifyDataSetChanged() // Notify the entire adapter to refresh
+        resetSelection()
     }
 
-    // Clear selection
+    // Clear all selections
     fun clearSelection() {
         selectedItems.clear()
-        notifyDataSetChanged() // Refresh the list when selections are cleared
+        selectionMode = false
+        notifyDataSetChanged() // Refresh the entire list to update selection state
+        onItemSelected(selectedItems.toList()) // Notify activity of empty selection
     }
-    fun isSelectionMode(): Boolean {
-        return selectedItems.isNotEmpty() // Assuming `selectedItems` is a list of selected bills
-    }
+
+    // Check if in selection mode
+    fun isSelectionMode(): Boolean = selectionMode
+
     // Get the list of selected items
-    fun getSelectedItems(): List<Bill> = selectedItems.toList() // Retrieve selected items
+    fun getSelectedItems(): List<Bill> = selectedItems.toList()
 }

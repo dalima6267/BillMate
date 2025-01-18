@@ -31,7 +31,6 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var billAdapter: BillAdapter
     private val billList = mutableListOf<Bill>()
     private var selectedBill: Bill? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
@@ -43,8 +42,6 @@ class DashboardActivity : AppCompatActivity() {
         setupBottomNavigationView()
         loadBillData()
         setStatusBarTextColorToBlack()
-
-
     }
 
     override fun onResume() {
@@ -53,7 +50,10 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun setupToolbarActions() {
-        binding.imgEdit.setOnClickListener { selectedBill?.let { editBill(it) } }
+        binding.imgEdit.setOnClickListener {
+            val selectedBill = billAdapter.getSelectedItems().firstOrNull()
+            if (selectedBill != null) editBill(selectedBill)
+        }
 
         binding.imgDelete.setOnClickListener {
             val selectedBills = billAdapter.getSelectedItems()
@@ -104,36 +104,33 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-
     private fun setupRecyclerView() {
-        billAdapter = BillAdapter(billList) { selectedItems ->
-            selectedBill = selectedItems.firstOrNull()
-            updateToolbarIcons()
-        }
+        billAdapter = BillAdapter(billList, { selectedItems ->
+            // Ensure selectedItems is a List<Bill>
+            updateToolbarIcons(selectedItems.isNotEmpty())
+        }, { isSelectionMode ->
+            // Handle changes in selection mode if needed
+        })
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
         binding.recyclerview.adapter = billAdapter
     }
 
-    private fun updateToolbarIcons() {
-        val hasSelection = billAdapter.isSelectionMode()
-
-        binding.imgEdit.visibility = if (hasSelection) View.VISIBLE else View.GONE
-        binding.imgDelete.visibility = if (hasSelection) View.VISIBLE else View.GONE
-        binding.imgSearch.visibility = if (!hasSelection) View.VISIBLE else View.GONE
-        binding.imgSort.visibility = if (!hasSelection) View.VISIBLE else View.GONE
+    private fun updateToolbarIcons(isSelectionMode: Boolean) {
+        binding.imgEdit.visibility = if (isSelectionMode) View.VISIBLE else View.GONE
+        binding.imgDelete.visibility = if (isSelectionMode) View.VISIBLE else View.GONE
+        binding.imgSearch.visibility = if (!isSelectionMode) View.VISIBLE else View.GONE
+        binding.imgSort.visibility = if (!isSelectionMode) View.VISIBLE else View.GONE
     }
 
     private fun clearSelection() {
-        selectedBill = null
         billAdapter.clearSelection()
-        updateToolbarIcons()
-        restoreActivityUI()
+        updateToolbarIcons(false)
     }
 
     private fun setupAddNewFileButton() {
         binding.btnAddNewFile.setOnClickListener {
             binding.toolbar.visibility = View.GONE
-            binding.bottomNavigationView.visibility=View.GONE
+            binding.bottomNavigationView.visibility = View.GONE
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, AddNewFileFragment())
                 .addToBackStack(null)
@@ -158,13 +155,12 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun performSearch(searchTerm: String) {
         val filteredList = billList.filter { bill ->
-            (bill.name?.contains(searchTerm, ignoreCase = true) == true) ||
-                    (bill.date?.contains(searchTerm, ignoreCase = true) == true) ||
-                    (bill.type?.contains(searchTerm, ignoreCase = true) == true)
+            bill.name?.contains(searchTerm, ignoreCase = true) == true ||
+                    bill.date?.contains(searchTerm, ignoreCase = true) == true ||
+                    bill.type?.contains(searchTerm, ignoreCase = true) == true
         }
         billAdapter.updateData(filteredList)
     }
-
 
     private fun showSortDialog() {
         val options = arrayOf("Sort by Name", "Sort by Date", "Sort by Type")
@@ -227,21 +223,17 @@ class DashboardActivity : AppCompatActivity() {
             .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
             .show()
     }
+
     private fun setupBottomNavigationView() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.dashboard -> {
-
                     showDashboard()
-
                     true
                 }
                 R.id.analyze -> {
                     binding.toolbar.visibility = View.GONE
                     binding.btnAddNewFile.visibility = View.GONE
-                    binding.recyclerview.visibility = View.GONE
-                    binding.txtNoData.visibility = View.GONE
-
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, AnalyzeFragment())
                         .addToBackStack(null)
@@ -251,20 +243,15 @@ class DashboardActivity : AppCompatActivity() {
                 R.id.grops -> {
                     binding.toolbar.visibility = View.GONE
                     binding.btnAddNewFile.visibility = View.GONE
-                    binding.recyclerview.visibility = View.GONE
-                    binding.txtNoData.visibility = View.GONE
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, GroupsFragment())
                         .addToBackStack(null)
                         .commit()
-
                     true
                 }
                 R.id.profile -> {
                     binding.toolbar.visibility = View.GONE
                     binding.btnAddNewFile.visibility = View.GONE
-                    binding.recyclerview.visibility = View.GONE
-                    binding.txtNoData.visibility = View.GONE
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, ProfileFragment())
                         .addToBackStack(null)
@@ -275,48 +262,23 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun showDashboard() {
-        // Clear back stack to ensure we return to the original activity view
-        supportFragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
-
-        // Restore activity-specific UI elements
         binding.toolbar.visibility = View.VISIBLE
         binding.btnAddNewFile.visibility = View.VISIBLE
-        binding.recyclerview.visibility = View.VISIBLE
-        binding.txtNoData.visibility = if (billList.isEmpty()) View.VISIBLE else View.GONE
-    }
-
-
-    override fun onBackPressed() {
-        if (billAdapter.isSelectionMode()) {
-            // Exit selection mode
-            clearSelection()
-        } else if (supportFragmentManager.backStackEntryCount > 0) {
-            // If there's a fragment in the back stack, pop it
-            supportFragmentManager.popBackStack()
-            restoreActivityUI()
-        } else {
-            // Otherwise, exit the app
-            super.onBackPressed()
-        }
-    }
-    private fun restoreActivityUI() {
-        binding.toolbar.visibility = View.VISIBLE
-        binding.btnAddNewFile.visibility = View.VISIBLE
-        binding.recyclerview.visibility = View.VISIBLE
-        binding.bottomNavigationView.visibility = View.VISIBLE
+        supportFragmentManager.popBackStack()
     }
 
     private fun setStatusBarTextColorToBlack() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val window = window
-
-            // Set the status bar background color to white
-            window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
-
-            // Enable light status bar (black text/icons)
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            val decorView = window.decorView
+            decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            window.statusBarColor = ContextCompat.getColor(this, R.color.white)
         }
     }
 
+    override fun onBackPressed() {
+        if (billAdapter.getSelectedItems().isNotEmpty()) clearSelection()
+        else super.onBackPressed()
+    }
 }
