@@ -7,13 +7,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.billmate.databinding.ItemGroupBinding
 import com.example.billmate.models.Group
 
-
 class GroupAdapter(
     private val onGroupClick: (Group) -> Unit,
     private val onGroupLongClick: (Group) -> Unit
 ) : ListAdapter<Group, GroupAdapter.GroupViewHolder>(GroupDiffCallback()) {
 
-    private val selectedGroups = mutableListOf<Group>()
+    private val selectedGroups = mutableListOf<Group>() // Track selected groups
+
+    // Reset selection and notify UI
+    fun resetSelection() {
+        selectedGroups.clear() // Clear selected items
+        notifyDataSetChanged() // Refresh the entire list
+    }
 
     fun setSelection(selected: List<Group>) {
         selectedGroups.clear()
@@ -39,7 +44,12 @@ class GroupAdapter(
         private val binding: ItemGroupBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(group: Group, onGroupClick: (Group) -> Unit, onGroupLongClick: (Group) -> Unit, isSelected: Boolean) {
+        fun bind(
+            group: Group,
+            onGroupClick: (Group) -> Unit,
+            onGroupLongClick: (Group) -> Unit,
+            isSelected: Boolean
+        ) {
             binding.apply {
                 tvGroupName.text = group.name
                 tvGroupDescription.text = group.description
@@ -58,11 +68,10 @@ class GroupAdapter(
             }
         }
     }
+
     override fun submitList(list: List<Group>?) {
-        super.submitList(list?.let { ArrayList(it) })
+        super.submitList(list?.let { ArrayList(it) }) // Ensure a new list instance
     }
-
-
 
     class GroupDiffCallback : DiffUtil.ItemCallback<Group>() {
         override fun areItemsTheSame(oldItem: Group, newItem: Group): Boolean {

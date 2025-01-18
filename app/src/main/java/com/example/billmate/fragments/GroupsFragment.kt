@@ -52,10 +52,10 @@ class GroupsFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        // Pass both onGroupClick and onGroupLongClick lambdas
+        // Initialize adapter with click listeners
         groupAdapter = GroupAdapter(
             onGroupClick = { group -> toggleSelection(group) },
-            onGroupLongClick = { group -> handleLongClick(group) } // Define a handler for long click
+            onGroupLongClick = { group -> handleLongClick(group) }
         )
 
         binding.rvGroups.apply {
@@ -66,8 +66,9 @@ class GroupsFragment : Fragment() {
         // Load groups from the database
         loadGroupsFromDatabase()
     }
+
     private fun handleLongClick(group: Group) {
-        // Handle long-click logic, e.g., show a context menu or toggle selection
+        toggleSelection(group)
     }
 
     private fun setupToolbar() {
@@ -86,8 +87,11 @@ class GroupsFragment : Fragment() {
             selectedGroups.add(group)
         }
         groupAdapter.setSelection(selectedGroups)
+        updateToolbarIcons()
+    }
 
-        // Toggle toolbar icons
+    // Function to update toolbar icons based on selection state
+    private fun updateToolbarIcons() {
         val isSelectionActive = selectedGroups.isNotEmpty()
         binding.imgEdit.visibility = if (isSelectionActive) View.VISIBLE else View.GONE
         binding.imgDelete.visibility = if (isSelectionActive) View.VISIBLE else View.GONE
@@ -98,11 +102,15 @@ class GroupsFragment : Fragment() {
     private fun editSelectedGroups() {
         if (selectedGroups.size == 1) {
             val group = selectedGroups.first()
-            addGroup(group) // Reuse the addGroup logic
+            addGroup(group)
+            selectedGroups.clear()
+            groupAdapter.resetSelection()
+            updateToolbarIcons()// Clear selection after editing
         } else {
             Toast.makeText(requireContext(), "Select only one group to edit.", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private fun deleteSelectedGroups() {
         AlertDialog.Builder(requireContext())
@@ -112,12 +120,15 @@ class GroupsFragment : Fragment() {
                 lifecycleScope.launch {
                     groupDatabase.groupDao().deleteMultiple(selectedGroups)
                     selectedGroups.clear()
+                    groupAdapter.resetSelection()
+                    updateToolbarIcons()// Clear selection
                     loadGroupsFromDatabase()
                 }
             }
             .setNegativeButton("No", null)
             .show()
     }
+
 
     private fun showSearchDialog() {
         val searchDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_search_group, null)
@@ -207,8 +218,9 @@ class GroupsFragment : Fragment() {
                 .show()
         }
     }
-    private fun createExpense(){
 
+    private fun createExpense() {
+        Toast.makeText(requireContext(), "Create Expense functionality coming soon.", Toast.LENGTH_SHORT).show()
     }
 
     private fun addGroup(existingGroup: Group? = null) {
