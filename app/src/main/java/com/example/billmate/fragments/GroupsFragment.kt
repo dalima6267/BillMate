@@ -16,6 +16,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +25,7 @@ import com.example.billmate.R
 import com.example.billmate.database.GroupDatabase
 import com.example.billmate.databinding.FragmentGroupsBinding
 import com.example.billmate.models.Group
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
 class GroupsFragment : Fragment() {
@@ -45,7 +47,7 @@ class GroupsFragment : Fragment() {
         setupRecyclerView()
         setupToolbar()
         setupFabClick()
-
+        handleBackPressed()
         setStatusBarTextColorToBlack()
 
         return binding.root
@@ -300,6 +302,23 @@ class GroupsFragment : Fragment() {
         } else {
             openContacts()
         }
+    }
+
+    private fun handleBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    try {
+                        // Simulate bottom navigation item click for GroupsFragment
+                        val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+                        bottomNavView.selectedItemId = R.id.analyze // Replace with the correct ID
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+        )
     }
 
     private fun openContacts() {

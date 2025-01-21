@@ -5,28 +5,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.billmate.R
+import com.example.billmate.databinding.FragmentProfileBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class ProfileFragment : Fragment() {
-
+private lateinit var binding: FragmentProfileBinding
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Make the status bar transparent if the SDK version supports it
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            requireActivity().window.decorView.systemUiVisibility =
-//                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//            requireActivity().window.statusBarColor = android.graphics.Color.TRANSPARENT
-//        }
-        // Inflate the layout for this fragment
+       binding= FragmentProfileBinding.inflate(inflater, container, false)
         setStatusBarTextColorToBlack()
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        handleBackPressed()
+        return binding.root
     }
     private fun setStatusBarTextColorToBlack() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -39,7 +37,25 @@ class ProfileFragment : Fragment() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
+
     }
 
+     private fun handleBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    try {
+                        // Simulate bottom navigation item click for GroupsFragment
+                        val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+                        bottomNavView.selectedItemId = R.id.grops // Replace with the correct ID
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+        )
+    }}
 
-}
+
+
