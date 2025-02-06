@@ -18,5 +18,3 @@ data class Bill(
     var amount: Double? = 0.0,
     var imageUri: List<Uri> = emptyList()// Add amount field
 )
-
-

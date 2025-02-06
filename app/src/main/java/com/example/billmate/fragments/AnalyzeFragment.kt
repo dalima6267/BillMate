@@ -28,7 +28,7 @@ import kotlinx.coroutines.withContext
 class AnalyzeFragment : Fragment() {
 
 
-private lateinit var binding:FragmentAnalyzeBinding
+    private lateinit var binding:FragmentAnalyzeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

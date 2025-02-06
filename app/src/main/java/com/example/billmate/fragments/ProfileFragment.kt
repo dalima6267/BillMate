@@ -14,14 +14,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class ProfileFragment : Fragment() {
-private lateinit var binding: FragmentProfileBinding
+    private lateinit var binding: FragmentProfileBinding
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       binding= FragmentProfileBinding.inflate(inflater, container, false)
+        binding= FragmentProfileBinding.inflate(inflater, container, false)
         setStatusBarTextColorToBlack()
         handleBackPressed()
         return binding.root
@@ -40,7 +40,7 @@ private lateinit var binding: FragmentProfileBinding
 
     }
 
-     private fun handleBackPressed() {
+    private fun handleBackPressed() {
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -56,6 +56,3 @@ private lateinit var binding: FragmentProfileBinding
             }
         )
     }}
-
-
-

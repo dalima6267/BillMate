@@ -3,20 +3,26 @@ agp = "8.6.1"
 anychartAndroid = "1.1.5"
 cardview = "1.0.0"
 circleimageview = "3.1.0"
+firebaseMlVision = "24.1.0"
 glide = "4.16.0"
 gson = "2.10.1"
+hiltAndroid = "2.51.1"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
+kotlinxCoroutinesCore = "1.7.3"
+lifecycleRuntimeKtx = "2.8.7"
 material = "1.12.0"
 activity = "1.9.2"
 constraintlayout = "2.1.4"
 materialVersion = "1.9.0"
 mpandroidchart = "v3.1.0"
+mlkitTextRecognition = "16.0.0"
 picasso = "2.8"
+playServicesVisionCommon = "20.0.0"
 poi = "5.2.3"
 roomCompiler = "2.5.0"
 roomCompilerVersion = "2.6.1"
@@ -28,10 +34,18 @@ firebaseAuth = "23.1.0"
 firebaseStorage = "21.0.1"
 firebaseDatabase = "21.0.0"
 firebaseFirestore = "25.1.1"
+textRecognition = "16.0.1"
+textRecognitionVersion = "16.1.0"
+visionCommon = "17.3.0"
+playServicesMlkitTextRecognitionCommon = "19.1.0"
+playServicesMlkitTextRecognition = "19.0.1"
 
 [libraries]
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 androidx-room-compiler-v261 = { module = "androidx.room:room-compiler", version.ref = "roomCompilerVersion" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomCompiler" }
@@ -39,12 +53,17 @@ androidx-room-ktx-v261 = { module = "androidx.room:room-ktx", version.ref = "roo
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 anychart-android = { module = "com.github.AnyChart:AnyChart-Android", version.ref = "anychartAndroid" }
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
+firebase-ml-vision = { module = "com.google.firebase:firebase-ml-vision", version.ref = "firebaseMlVision" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
@@ -56,9 +75,15 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 material-v190 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
+play-services-vision-common = { module = "com.google.android.gms:play-services-vision-common", version.ref = "playServicesVisionCommon" }
 poi = { module = "org.apache.poi:poi", version.ref = "poi" }
 poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "poi" }
-
+mlkit-text-recognition = { module = "com.google.mlkit:text-recognition", version.ref = "mlkitTextRecognition" }
+text-recognition-v1601 = { module = "com.google.mlkit:text-recognition", version.ref = "textRecognition" }
+text-recognition-v1610 = { module = "com.google.mlkit:text-recognition", version.ref = "textRecognitionVersion" }
+vision-common = { group = "com.google.mlkit", name = "vision-common", version.ref = "visionCommon" }
+play-services-mlkit-text-recognition-common = { group = "com.google.android.gms", name = "play-services-mlkit-text-recognition-common", version.ref = "playServicesMlkitTextRecognitionCommon" }
+play-services-mlkit-text-recognition = { group = "com.google.android.gms", name = "play-services-mlkit-text-recognition", version.ref = "playServicesMlkitTextRecognition" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

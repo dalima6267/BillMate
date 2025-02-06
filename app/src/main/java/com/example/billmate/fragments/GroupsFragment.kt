@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -34,7 +35,7 @@ class GroupsFragment : Fragment() {
     private lateinit var groupAdapter: GroupAdapter
     private lateinit var groupDatabase: GroupDatabase
     private val selectedGroups = mutableListOf<Group>()
-
+    private val importedContacts = mutableListOf<String>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -222,13 +223,32 @@ class GroupsFragment : Fragment() {
     }
 
     private fun createExpense() {
-        Toast.makeText(requireContext(), "Create Expense functionality coming soon.", Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            val groups = groupDatabase.groupDao().getAllGroups()
+
+            if (groups.isEmpty()) {
+                Toast.makeText(requireContext(), "No groups found. Please create a group first.", Toast.LENGTH_SHORT).show()
+                addGroup()
+                return@launch
+            }
+
+            // Show a dialog to select a group
+            val groupNames = groups.map { it.name }.toTypedArray()
+            AlertDialog.Builder(requireContext())
+                .setTitle("Select a Group")
+                .setItems(groupNames) { _, which ->
+                    val selectedGroup = groups[which]
+                    addGroup(selectedGroup) // Pass the selected group to add an expense
+                }
+                .show()
+        }
     }
+
 
     private fun addGroup(existingGroup: Group? = null) {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_group, null)
         val dialogBuilder = AlertDialog.Builder(requireContext())
-            .setTitle(if (existingGroup == null) "Add Group" else "Edit Group")
+            .setTitle(if (existingGroup == null) "Add Group" else "Edit Group / Add Expense")
             .setView(dialogView)
             .setNegativeButton("Cancel", null)
 
@@ -247,6 +267,14 @@ class GroupsFragment : Fragment() {
             etDescription.setText(it.description)
             etMembers.setText(it.members.joinToString(", "))
             etAmount.setText(it.totalExpense.toString())
+        }
+
+        // Automatically add imported contacts to the group members
+        if (importedContacts.isNotEmpty()) {
+            val existingText = etMembers.text.toString()
+            val updatedText = if (existingText.isNotEmpty()) "$existingText, ${importedContacts.joinToString(", ")}" else importedContacts.joinToString(", ")
+            etMembers.setText(updatedText)
+            importedContacts.clear()
         }
 
         btnSubmitExpense.setOnClickListener {
@@ -275,7 +303,7 @@ class GroupsFragment : Fragment() {
                     if (existingGroup == null) {
                         groupDatabase.groupDao().insertGroup(newGroup)
                     } else {
-                        groupDatabase.groupDao().updateGroup(newGroup)
+                        groupDatabase.groupDao().updateGroup(newGroup.copy(totalExpense = existingGroup.totalExpense + amount))
                     }
                     loadGroupsFromDatabase()
                 }
@@ -292,7 +320,6 @@ class GroupsFragment : Fragment() {
             groupAdapter.submitList(groups)
         }
     }
-
     private fun importContacts() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.READ_CONTACTS
@@ -303,6 +330,7 @@ class GroupsFragment : Fragment() {
             openContacts()
         }
     }
+
 
     private fun handleBackPressed() {
         requireActivity().onBackPressedDispatcher.addCallback(
@@ -334,5 +362,23 @@ class GroupsFragment : Fragment() {
     @SuppressLint("ResourceAsColor")
     private fun setStatusBarTextColorToBlack() {
         requireActivity().window.statusBarColor = R.color.white
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 2 && data != null) {
+            val contactData = data.data ?: return
+            val cursor: Cursor? = requireContext().contentResolver.query(contactData, null, null, null, null)
+            cursor?.use {
+                if (it.moveToFirst()) {
+                    val nameIndex = it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+                    if (nameIndex >= 0) {
+                        val contactName = it.getString(nameIndex)
+                        importedContacts.add(contactName)
+                        Toast.makeText(requireContext(), "$contactName added to group", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 }
