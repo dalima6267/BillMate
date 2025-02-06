@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Switch
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
@@ -127,6 +128,7 @@ userRef.updateChildren(updates).addOnCompleteListener { task ->
 
         // Notification Settings
         binding.notificationSettings.setOnClickListener {
+            showNotificationSettingsDialog()
             // Navigate to Notification Settings
             // findNavController().navigate(R.id.action_profileFragment_to_notificationSettingsFragment)
         }
@@ -136,6 +138,29 @@ userRef.updateChildren(updates).addOnCompleteListener { task ->
             // Navigate to Security Settings
             // findNavController().navigate(R.id.action_profileFragment_to_securitySettingsFragment)
         }
+    }
+    private fun showNotificationSettingsDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Notification Settings")
+
+        val layout = LayoutInflater.from(context).inflate(R.layout.dialog_notification_settings, null)
+
+        val notificationSwitch = layout.findViewById<Switch>(R.id.switchNotifications)
+        val sharedPreferences = requireActivity().getSharedPreferences("AppSettings", 0)
+        val editor = sharedPreferences.edit()
+
+        // Load previous state
+        notificationSwitch.isChecked = sharedPreferences.getBoolean("notifications_enabled", true)
+
+        builder.setView(layout)
+        builder.setPositiveButton("Save") { _, _ ->
+            val isEnabled = notificationSwitch.isChecked
+            editor.putBoolean("notifications_enabled", isEnabled)
+            editor.apply()
+            Toast.makeText(requireContext(), "Notification settings updated!", Toast.LENGTH_SHORT).show()
+        }
+        builder.setNegativeButton("Cancel", null)
+        builder.create().show()
     }
 
     private fun setupFeedback() {
