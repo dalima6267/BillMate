@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.billmate.R
@@ -226,47 +228,45 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun setupBottomNavigationView() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+
             when (item.itemId) {
                 R.id.dashboard -> {
                     showDashboard()
-                    true
+                    return@setOnItemSelectedListener true
                 }
                 R.id.analyze -> {
-                    binding.toolbar.visibility = View.GONE
-                    binding.btnAddNewFile.visibility = View.GONE
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, AnalyzeFragment())
-                        .addToBackStack(null)
-                        .commit()
-                    true
+                    replaceFragment(AnalyzeFragment())
+                    return@setOnItemSelectedListener true
                 }
                 R.id.grops -> {
-                    binding.toolbar.visibility = View.GONE
-                    binding.btnAddNewFile.visibility = View.GONE
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, GroupsFragment())
-                        .addToBackStack(null)
-                        .commit()
-                    true
+                    replaceFragment(GroupsFragment())
+                    return@setOnItemSelectedListener true
                 }
                 R.id.profile -> {
-                    binding.toolbar.visibility = View.GONE
-                    binding.btnAddNewFile.visibility = View.GONE
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, ProfileFragment())
-                        .addToBackStack(null)
-                        .commit()
-                    true
+                    replaceFragment(ProfileFragment())
+                    return@setOnItemSelectedListener true
                 }
-                else -> false
             }
+            false
         }
     }
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE) // Clears back stack
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
+        binding.fragmentContainer.visibility = View.VISIBLE
+        binding.toolbar.visibility = View.GONE
+        binding.btnAddNewFile.visibility = View.GONE
+    }
+
 
     private fun showDashboard() {
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        binding.fragmentContainer.visibility = View.GONE
         binding.toolbar.visibility = View.VISIBLE
         binding.btnAddNewFile.visibility = View.VISIBLE
-        supportFragmentManager.popBackStack()
     }
 
     private fun setStatusBarTextColorToBlack() {
@@ -278,7 +278,11 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (billAdapter.getSelectedItems().isNotEmpty()) clearSelection()
-        else super.onBackPressed()
+        val fragmentManager = supportFragmentManager
+        if (fragmentManager.backStackEntryCount > 0) {
+            fragmentManager.popBackStack()
+        } else {
+            showDashboard()
+        }
     }
 }
