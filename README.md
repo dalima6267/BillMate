@@ -25,6 +25,9 @@ With an intuitive interface and advanced features such as Firebase storage and a
 - Offline support through local storage with Room database integration.
 - Cloud storage and authentication using Firebase for secure access.
 - An attractive and user-friendly interface to enhance the overall experience.
+- Expense Splitting – Similar to Splitwise, allowing users to divide expenses among group members.
+- Contact Linking – Modified import contact feature to link contacts with the "Add Group" or "Group Section."
+- Edit Profile Feature – Users can edit their name, email, or password, with changes saved in Firebase.
 
 
 
