@@ -33,7 +33,7 @@ With an intuitive interface and advanced features such as Firebase storage and a
 
 ## Demo
 
-https://github.com/user-attachments/assets/693b7dbb-3deb-4537-9e2f-c4d3d2dff4c9
+https://github.com/user-attachments/assets/4139d1a0-882f-48d6-8ef3-749a21c9c15f
 
 
 
