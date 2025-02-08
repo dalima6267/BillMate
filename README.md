@@ -38,15 +38,28 @@ https://github.com/user-attachments/assets/4139d1a0-882f-48d6-8ef3-749a21c9c15f
 
 
 ## Screenshots
-<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+## Screenshots
+
+<p align="center">
     <img src="https://github.com/user-attachments/assets/2ef67043-edfd-4af5-94b6-23837bfeab57" alt="Splash Screen" width="300" height="600">
     <img src="https://github.com/user-attachments/assets/e97e3c55-2518-4783-8937-5230a3930725" alt="Signup/Login Page" width="300" height="600">
+</p>
+
+<p align="center">
     <img src="https://github.com/user-attachments/assets/40f16df2-4302-4e82-a8e5-b66c2f8adcd0" alt="Dashboard" width="300" height="600">
-    <img src="https://github.com/user-attachments/assets/dc50d8d6-ba8b-4ff9-a9c4-e113830fd57a" alt="Graph (Date vs Amount)" width="300" height="600">
+     <img src="https://github.com/user-attachments/assets/dc50d8d6-ba8b-4ff9-a9c4-e113830fd57a" alt="Graph (Date vs Amount)" width="300" height="600">
+</p>
+
+<p align="center">
     <img src="https://github.com/user-attachments/assets/0c17e767-d575-42a9-afda-60f85fa6c863" alt="Expense Tracker" width="300" height="600">
-    <img src="https://github.com/user-attachments/assets/3546d3b3-a39e-4ec7-97bc-b92f35a6407c" alt="Profile Section" width="300" height="600">
+      <img src="https://github.com/user-attachments/assets/3546d3b3-a39e-4ec7-97bc-b92f35a6407c" alt="Profile Section" width="300" height="600">
+</p>
+
+<p align="center">
     <img src="https://github.com/user-attachments/assets/fd520e3c-ccf0-4d86-8a4d-ec2539c586d2" alt="Additional Functionality" width="300" height="600">
-</div>
+</p>
+
+
 
 
 ## 🚀 About Me
