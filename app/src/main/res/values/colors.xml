@@ -4,5 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#808080</color>
     <color name="status_bar_color">#89CFF0</color> <!-- White or any light color -->
+    <color name="lightGray">#F8F8F8</color>
+
+    <color name="purple_500">#673AB7</color>
 
 </resources>

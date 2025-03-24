@@ -135,7 +135,7 @@ class GroupsFragment : Fragment() {
 
     private fun showSearchDialog() {
         val searchDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_search_group, null)
-        val searchEditText = searchDialogView.findViewById<EditText>(R.id.etSearchGroup)
+        val searchEditText = searchDialogView.findViewById<EditText>(R.id.etSearch)
 
         AlertDialog.Builder(requireContext())
             .setTitle("Search Groups")

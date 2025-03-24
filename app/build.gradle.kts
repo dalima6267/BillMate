@@ -73,6 +73,7 @@ dependencies {
 
     implementation(libs.material.v190)
 
+    implementation(libs.text.recognition.v1601)
 
     implementation(libs.anychart.android)
 

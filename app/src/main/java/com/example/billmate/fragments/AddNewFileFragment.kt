@@ -19,6 +19,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.billmate.R
@@ -28,6 +29,9 @@ import com.example.billmate.database.Bill
 import com.example.billmate.database.BillDatabase
 import com.example.billmate.databinding.FragmentAddNewFileBinding
 import com.example.billmate.utils.Constants
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -42,6 +46,7 @@ class AddNewFileFragment : Fragment() {
             imageUris.clear()  // Clear the list before adding new images
             imageUris.addAll(listOfUri)
             adapterSelectedImage.notifyDataSetChanged()
+            extractTextFromImage(imageUris[0])
         }
     }
 
@@ -54,9 +59,10 @@ class AddNewFileFragment : Fragment() {
             if (photo != null) {
                 // Convert Bitmap to Uri and add to list
                 val imageUriString = Images.Media.insertImage(requireContext().contentResolver, photo, "New Image", null)
-                val imageUri = Uri.parse(imageUriString)
+                val imageUri = imageUriString.toUri()
                 imageUris.add(imageUri)
                 adapterSelectedImage.notifyDataSetChanged()
+                extractTextFromImage(imageUri)
             }
         }
     }
@@ -177,6 +183,68 @@ class AddNewFileFragment : Fragment() {
         }
 
     }
+    private fun extractTextFromImage(imageUri: Uri){
+        val image=InputImage.fromFilePath(requireContext(),imageUri)
+        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+        recognizer.process(image).addOnSuccessListener {visionText->
+            val extractedText=visionText.text
+            // Autofill form fields based on extracted text
+            parseExtractedText(extractedText)
+        }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to recognize text", Toast.LENGTH_SHORT).show()
+            }
+    }
+    private fun parseExtractedText(text: String) {
+        // Regular expression for extracting amounts (supports commas and decimals)
+        val amountRegex = Regex("\\d{1,3}(?:,\\d{3})*(?:\\.\\d{2})?")
+
+        // Regular expression for extracting dates (supports DD/MM/YY, DD-MM-YYYY, DD.MM.YY)
+        val dateRegex = Regex("\\b(\\d{1,2}[/.-]\\d{1,2}[/.-](\\d{2}|\\d{4}))\\b")
+
+        // Extract all matching amounts and convert them to numbers for comparison
+        val amounts = amountRegex.findAll(text).map { it.value.replace(",", "").toDouble() }.toList()
+
+        // Extract first found date
+        val extractedDate = dateRegex.find(text)?.value ?: ""
+
+        var extractedAmount: String? = null
+        val keywordPatterns = listOf("Total", "Grand Total", "Amount Payable", "Total Bill")
+
+        for (line in text.lines()) {
+            if (keywordPatterns.any { line.contains(it, ignoreCase = true) }) {
+                val matchedAmount = amountRegex.find(line)?.value?.replace(",", "")
+                if (matchedAmount != null) {
+                    extractedAmount = matchedAmount
+                    break
+                }
+            }
+        }
+
+        // If no specific "Total" is found, use the highest value
+        if (extractedAmount == null && amounts.isNotEmpty()) {
+            extractedAmount = amounts.maxOrNull()?.toString()
+        }
+
+        // Autofill extracted values in UI
+        if (!extractedAmount.isNullOrEmpty()) {
+            binding.txtbillAmount.setText(extractedAmount)
+        }
+
+        if (extractedDate.isNotEmpty()) {
+            binding.txtDateSet.setText(extractedDate)
+        }
+
+        // Identify bill type from predefined categories
+        val billTypes = Constants.allTypesofBills
+        for (type in billTypes) {
+            if (text.contains(type, ignoreCase = true)) {
+                binding.txtTypeSet.setText(type)
+                break
+            }
+        }
+    }
+
 
 
     companion object {

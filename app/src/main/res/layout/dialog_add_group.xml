@@ -1,62 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
-    <EditText
-        android:id="@+id/etName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Name"
-        android:inputType="text" />
-    <EditText
-        android:id="@+id/etDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Description"
-        android:inputType="text" />
-    <EditText
-        android:id="@+id/etMembers"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Members"
-        android:inputType="text" />
+    android:padding="20dp"
+    android:background="@color/lightGray">
 
-    <EditText
-        android:id="@+id/etAmount"
+    <!-- Card View for better UI -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Amount"
-        android:inputType="numberDecimal" />
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        android:background="@android:color/white"
+        android:padding="20dp">
 
-    <RadioGroup
-        android:id="@+id/rgSplitType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <RadioButton
-            android:id="@+id/rbYouOwedFull"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="You are owed the full payment" />
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/rbOtherOwedFull"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Other is owed the full payment" />
+            <!-- Name -->
+            <EditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:background="@drawable/rounded_border"
+                android:inputType="text" />
 
-        <RadioButton
-            android:id="@+id/rbSplitEqually"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Split equally among all" />
-    </RadioGroup>
+            <!-- Description -->
+            <EditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:background="@drawable/rounded_border"
+                android:inputType="text"
+                android:layout_marginTop="10dp" />
 
-    <Button
-        android:id="@+id/btnSubmitExpense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Submit Expense" />
+            <!-- Members -->
+            <EditText
+                android:id="@+id/etMembers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Members"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:background="@drawable/rounded_border"
+                android:inputType="text"
+                android:layout_marginTop="10dp" />
+
+            <!-- Amount -->
+            <EditText
+                android:id="@+id/etAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Amount"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:background="@drawable/rounded_border"
+                android:inputType="numberDecimal"
+                android:layout_marginTop="10dp" />
+
+            <!-- Radio Group for Payment Type -->
+            <RadioGroup
+                android:id="@+id/rgSplitType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+
+                <RadioButton
+                    android:id="@+id/rbYouOwedFull"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You are owed the full payment"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:padding="8dp" />
+
+                <RadioButton
+                    android:id="@+id/rbOtherOwedFull"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Other is owed the full payment"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:padding="8dp" />
+
+                <RadioButton
+                    android:id="@+id/rbSplitEqually"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Split equally among all"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:padding="8dp" />
+            </RadioGroup>
+
+            <!-- Submit Button -->
+            <Button
+                android:id="@+id/btnSubmitExpense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit Expense"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:background="@drawable/button_rounded"
+                android:layout_marginTop="20dp"
+                android:padding="12dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

@@ -4,6 +4,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fab_add_group">Add new group</string>
+    <string name="login">Login</string>
+    <string name="new_user_sign_up">New User? Sign Up</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="enter_email_id">Enter Email ID</string>
+    <string name="enter_your_email">Enter Your Email</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
     <string-array name="groups_array">
         <item>All of Me and You</item>
         <item>Friends</item>

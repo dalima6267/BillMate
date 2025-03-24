@@ -1,73 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/lightGray">
 
-    <!-- Bill Name Input -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bill Name"
-        android:textAppearance="?attr/textAppearanceSubtitle1" />
-
-    <EditText
-        android:id="@+id/etBillName"
+    <!-- CardView for Better UI -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter bill name"
-        android:inputType="text"
-        android:padding="8dp"
-        android:background="@drawable/edit_text_background" />
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        android:background="@android:color/white"
+        android:padding="20dp">
 
-    <!-- Bill Date Input -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bill Date"
-        android:layout_marginTop="16dp"
-        android:textAppearance="?attr/textAppearanceSubtitle1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/etBillDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter bill date"
-        android:inputType="date"
-        android:padding="8dp"
-        android:background="@drawable/edit_text_background" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bill Amount"
-        android:layout_marginTop="16dp"
-        android:textAppearance="?attr/textAppearanceSubtitle1" />
+            <!-- Bill Name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bill Name"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
 
-    <EditText
-        android:id="@+id/etBillAmount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter bill amount"
-        android:inputType="date"
-        android:padding="8dp"
-        android:background="@drawable/edit_text_background" />
+            <EditText
+                android:id="@+id/etBillName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter bill name"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:background="@drawable/rounded_border"
+                android:inputType="text" />
 
-    <!-- Bill Type Input -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bill Type"
-        android:layout_marginTop="16dp"
-        android:textAppearance="?attr/textAppearanceSubtitle1" />
+            <!-- Bill Date -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bill Date"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="12dp" />
 
-    <EditText
-        android:id="@+id/etBillType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter bill type"
-        android:inputType="text"
-        android:padding="8dp"
-        android:background="@drawable/edit_text_background" />
+            <EditText
+                android:id="@+id/etBillDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter bill date"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:background="@drawable/rounded_border"
+                android:inputType="date" />
 
+            <!-- Bill Amount -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bill Amount"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="12dp" />
+
+            <EditText
+                android:id="@+id/etBillAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter bill amount"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:background="@drawable/rounded_border"
+                android:inputType="numberDecimal" />
+
+            <!-- Bill Type -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bill Type"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="12dp" />
+
+            <EditText
+                android:id="@+id/etBillType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter bill type"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:background="@drawable/rounded_border"
+                android:inputType="text" />
+
+            <!-- Submit Button -->
+            <Button
+                android:id="@+id/btnSubmitBill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit Bill"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:background="@drawable/button_rounded"
+                android:layout_marginTop="20dp"
+                />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

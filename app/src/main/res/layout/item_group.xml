@@ -1,26 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="6dp"
+    android:layout_margin="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
     android:background="@android:color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="20dp">
 
-        <!-- Group Details Section -->
+        <!-- Group Icon (Top-right) -->
+        <ImageView
+            android:id="@+id/ivGroupIcon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/baseline_group_24"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_background"
+            android:padding="12dp"
+            android:contentDescription="Group Icon" />
+
+        <!-- Group Details -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_alignParentStart="true"
-            android:layout_marginEnd="72dp"> <!-- Space for ImageView -->
+            android:layout_toStartOf="@id/ivGroupIcon"
+            android:layout_marginEnd="12dp">
 
             <!-- Group Name -->
             <TextView
@@ -28,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Group Name"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/black" />
 
@@ -40,31 +52,31 @@
                 android:text="Group Description"
                 android:textSize="14sp"
                 android:textColor="@android:color/darker_gray"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="2dp" />
 
-            <!-- Divider -->
+            <!-- Stylish Divider -->
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_width="0dp"
+                android:layout_height="1.5dp"
                 android:background="@android:color/darker_gray"
-                android:layout_marginVertical="8dp" />
+                android:layout_marginVertical="10dp"
+                android:alpha="0.6"/>
 
             <!-- Group Members -->
             <TextView
                 android:id="@+id/tvGroupMembers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Group Members"
+                android:text="👥 Group Members"
                 android:textSize="14sp"
-                android:textColor="@android:color/darker_gray"
-                android:layout_marginTop="4dp" />
+                android:textColor="@android:color/darker_gray" />
 
             <!-- Amount -->
             <TextView
                 android:id="@+id/tvAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Amount: ₹0.00"
+                android:text="💰 Amount: ₹0.00"
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:layout_marginTop="8dp"
@@ -75,22 +87,11 @@
                 android:id="@+id/tvSplitType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Split Type: Split equally among all"
+                android:text="📌 Split Type: Equally among all"
                 android:textSize="14sp"
                 android:textColor="@android:color/darker_gray"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
 
-        <!-- Image in the top-right corner -->
-        <ImageView
-            android:id="@+id/ivGroupIcon"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/baseline_group_24"
-        android:scaleType="centerCrop"
-        android:layout_marginTop="4dp"
-        android:contentDescription="Group Icon" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

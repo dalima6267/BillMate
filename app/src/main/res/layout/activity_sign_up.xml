@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,63 +8,62 @@
     android:layout_height="match_parent"
     android:background="@drawable/loginbbackground"
     tools:context=".activity.SignUpActivity">
+
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgProfile"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="136dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="100dp"
         android:src="@drawable/user"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
+        app:civ_border_width="3dp"
+        app:civ_border_color="@color/white"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.01" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
     <de.hdodenhof.circleimageview.CircleImageView
-
         android:id="@+id/imgPlus"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:src="@drawable/add"
         app:civ_border_color="@color/white"
         app:civ_border_width="2dp"
-
         app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
         app:layout_constraintEnd_toEndOf="@+id/imgProfile"
-        app:layout_constraintHorizontal_bias="0.907"
-        app:layout_constraintStart_toStartOf="@+id/imgProfile"
-        app:layout_constraintTop_toTopOf="@+id/imgProfile"
-        app:layout_constraintVertical_bias="0.842"
-        app:layout_editor_absoluteX="146dp"
-        app:layout_editor_absoluteY="317dp" />
+        app:layout_constraintHorizontal_bias="1.1"
+        app:layout_constraintVertical_bias="1.1" />
+
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutName"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="26dp"
-        app:boxCornerRadiusBottomEnd="16.90dp"
-        app:boxCornerRadiusBottomStart="16.90dp"
-        app:boxCornerRadiusTopEnd="16.60dp"
-        app:boxCornerRadiusTopStart="16.90dp"
         android:layout_marginTop="35dp"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusTopStart="16dp"
+        app:boxCornerRadiusBottomEnd="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
         app:endIconMode="clear_text"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgProfile"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgProfile">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Enter Name"
+            android:inputType="textPersonName"
+            android:textSize="16sp"
+            android:textColorHint="@color/black"
             android:drawableStart="@drawable/baseline_person_24"
-            android:drawablePadding="9.10dp"
-            android:hint="Enter name"
-            android:inputType="text"
-            android:textColorHint="@color/black" />
-
+            android:drawablePadding="10dp"/>
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutEmail"
@@ -71,26 +71,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="26dp"
-        android:layout_marginTop="35dp"
-        app:boxCornerRadiusBottomEnd="16.90dp"
-        app:boxCornerRadiusBottomStart="16.90dp"
-        app:boxCornerRadiusTopEnd="16.60dp"
-        app:boxCornerRadiusTopStart="16.90dp"
+        android:layout_marginTop="20dp"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusTopStart="16dp"
+        app:boxCornerRadiusBottomEnd="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
         app:endIconMode="clear_text"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutName">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtemail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/enter_your_email"
+            android:inputType="textEmailAddress"
+            android:textSize="16sp"
+            android:textColorHint="@color/black"
             android:drawableStart="@drawable/baseline_attach_email_24"
-            android:drawablePadding="9.10dp"
-            android:hint="Enter your email"
-            android:inputType="text"
-            android:textColorHint="@color/black" />
-
+            android:drawablePadding="10dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -99,54 +99,58 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="26dp"
-        android:layout_marginTop="35dp"
-        app:boxCornerRadiusBottomEnd="16.90dp"
-        app:boxCornerRadiusBottomStart="16.90dp"
-        app:boxCornerRadiusTopEnd="16.60dp"
-        app:boxCornerRadiusTopStart="16.90dp"
-        app:endIconMode="clear_text"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusTopStart="16dp"
+        app:boxCornerRadiusBottomEnd="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:endIconMode="password_toggle"
+        app:layout_constraintTop_toBottomOf="@+id/layoutEmail"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutEmail">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Enter Password"
+            android:inputType="textPassword"
+            android:textSize="16sp"
+            android:textColorHint="@color/black"
             android:drawableStart="@drawable/lock"
-            android:drawablePadding="9.10dp"
-            android:hint="Enter password"
-            android:inputType="text"
-            android:textColorHint="@color/black" />
-
+            android:drawablePadding="10dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-
+    <!-- Submit Button -->
     <Button
         android:id="@+id/btnRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="48dp"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="40dp"
         android:backgroundTint="#89CFF0"
-
-        android:text="Submit"
+        android:text="@string/submit"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:cornerRadius="25dp"
         app:layout_constraintTop_toBottomOf="@+id/layoutPassword"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
+    <!-- Cancel Button -->
     <Button
         android:id="@+id/btnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
         android:backgroundTint="#9063CD"
-
-        android:text="Cancel"
-
+        android:text="@string/cancel"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnRegister" />
+        app:cornerRadius="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnRegister"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
